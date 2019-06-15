@@ -19,7 +19,7 @@
             <span class="text">Crash Card Club</span>
         </h1>
         <h2>Outils de création et d'annimation de workshop.</h2>
-        <h3>Inspirée des stratégies Obliques de Brian Eno.</h3>
+        <h3>Inspiré des stratégies Obliques de Brian Eno.</h3>
         <p>Bientôt disponible.</p>
         <p>Par <a href="http://robinmoretti.eu" target="_blank">Robin Moretti</a>, <a href="http://theogoedert.com/" target="_blank">Théo Paolo</a> et <a href="http://www.abstractmachine.net" target="_blank">Douglas E. Stanley</a></p>
     </div>
