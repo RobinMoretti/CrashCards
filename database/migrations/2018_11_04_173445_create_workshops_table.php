@@ -17,7 +17,7 @@ class CreateWorkshopsTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable();
             $table->integer('index')->nullable();
-            $table->boolean('locked')->default('false');
+            $table->boolean('locked')->default(false);
             $table->unsignedInteger('author_id')->nullable();
             $table->unsignedInteger('deck_id')->nullable();
             $table->timestamps();

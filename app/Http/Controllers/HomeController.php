@@ -17,10 +17,14 @@ class HomeController extends Controller
 
     public function index()
     {
-        $workshops = Workshop::all();
 
-        // dd($workshops);
+        if(env("ALPHA", "true")){
+            return view('alpha.home');
+        }else{
 
-        return view('welcome', compact('workshops'));
+            $workshops = Workshop::all();
+
+            return view('home', compact('workshops'));
+        }
     }
 }

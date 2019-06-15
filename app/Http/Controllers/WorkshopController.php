@@ -10,12 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class WorkshopController extends Controller
 {
-    //
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
-
 
     public function destroy(Request $request, Workshop $workshop)
     {
@@ -96,8 +90,14 @@ class WorkshopController extends Controller
 
 
     function getWorkshopState(){
-    	return Workshop::all()
+        if(count(Workshop::all())){
+            $workshops = Workshop::all()
                         ->first()
-        				->load('deck.categories', 'deck.cards');
+                        ->load('deck.categories', 'deck.cards');
+        }
+        else
+            $workshops = null;
+
+    	return $workshops;
     }
 }

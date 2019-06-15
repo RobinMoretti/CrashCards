@@ -13,8 +13,8 @@
 
 Auth::routes();
 
-Route::get('/', 'WorkshopController@index')->name('home');
-Route::get('/home', 'WorkshopController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware(['auth'])->group(function () {
 
