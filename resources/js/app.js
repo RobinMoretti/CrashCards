@@ -13,6 +13,22 @@ import VueFlashMessage from 'vue-flash-message';
 Vue.use(VueFlashMessage);
 require('vue-flash-message/dist/vue-flash-message.min.css'); // too replace later
 
+//broadcaster laravel
+import Echo from "laravel-echo"
+
+window.io = require('socket.io-client');
+
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: window.location.hostname + ':6001',
+    key: '0e0611c3c657918415d71bdcc1088299',
+});
+
+window.Echo.channel('messages-demo').listen('MessagePushed', (e) => {
+    console.log(e);
+})
+
+
 Vue.component('board', require('./components/Board.vue'));
 Vue.component('card-table', require('./components/CardTable.vue'));
 Vue.component('deck-bag', require('./components/DeckBag.vue'));
