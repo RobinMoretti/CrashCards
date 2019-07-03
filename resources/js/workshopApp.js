@@ -7,6 +7,8 @@ import VueSelect from 'vue-cool-select'
 import draggable from 'vuedraggable'
 Vue.component('draggable', draggable);
 
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 
 // https://github.com/keen-on-design/vue-flash-message
 import VueFlashMessage from 'vue-flash-message';
@@ -14,30 +16,27 @@ Vue.use(VueFlashMessage);
 require('vue-flash-message/dist/vue-flash-message.min.css'); // too replace later
 
 //broadcaster laravel
-import Echo from "laravel-echo"
+// import Echo from "laravel-echo"
 
-window.io = require('socket.io-client');
+// window.io = require('socket.io-client');
 
-window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':6001',
-    key: '0e0611c3c657918415d71bdcc1088299',
-});
+// window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: window.location.hostname + ':6001',
+//     key: '0e0611c3c657918415d71bdcc1088299',
+// });
 
-window.Echo.channel('messages-demo').listen('MessagePushed', (e) => {
-    console.log(e);
-})
+// window.Echo.channel('messages-demo').listen('MessagePushed', (e) => {
+//     console.log(e);
+// })
 
 
-Vue.component('board', require('./components/Board.vue'));
-Vue.component('card-table', require('./components/CardTable.vue'));
-Vue.component('deck-bag', require('./components/DeckBag.vue'));
-Vue.component('deck-maker', require('./components/DeckMaker.vue'));
-Vue.component('card-picker', require('./components/CardPicker.vue'));
-Vue.component('draggable-cards-container', require('./components/DraggableCardsContainer.vue'));
-Vue.component('workshops-register', require('./components/WorkshopsRegister.vue'));
-Vue.component('workshop-entry', require('./components/WorkshopEntry.vue'));
-Vue.component('user-editor', require('./components/UserEditor.vue'));
+// Vue.component('workshop-entry', require('./components/WorkshopEntry.vue'));
+
+import workshopEntry from './components/WorkshopEntry.vue';
+import test from './components/workshop/test.vue';
+import test2 from './components/workshop/test2.vue';
+
  
 Vue.use(VModal)
 
@@ -63,7 +62,26 @@ Vue.mixin({
     }
 })
 
+//     ____              __
+//    / __ \____  __  __/ /____  _____
+//   / /_/ / __ \/ / / / __/ _ \/ ___/
+//  / _, _/ /_/ / /_/ / /_/  __(__  )
+// /_/ |_|\____/\__,_/\__/\___/____/
+
+const routes = [
+  { path: '/', component: test },
+  { path: '/test2', component: test2 },
+  { path: '*', redirect: '/' }
+]
+
+const router = new VueRouter({
+    base: '/workshops/' + document.getElementById('workshop-id').textContent, 
+    // mode: 'history',
+    routes: routes // short for `routes: routes`
+})
+
 const app = new Vue({
+    router: router,
     el: '#app',
     methods: {
     	toogleMobileNav: function(){

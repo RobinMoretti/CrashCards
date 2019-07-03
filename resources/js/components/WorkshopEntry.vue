@@ -1,6 +1,9 @@
 <template>
-    <div class="row">
-        <div class="col">
+    <div class="">
+        <p>Workshop</p>
+        <p>PROUT</p>
+        <router-view></router-view>
+        <!-- <div class="col">
             <div class="button-edit-mode mt-3 mb-3">
                 <button class="btn btn-secondary" @click="editMode = true" v-if="!editMode"> Edit </button>
                 <button class="btn btn-info" @click="editMode = false" v-if="editMode"> Finish Editing </button>
@@ -32,7 +35,7 @@
                     
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -61,6 +64,7 @@
             if(this.workshop.deck_id != null){
                 this.deck = this.workshop.deck_id;
             }
+            console.log('mounted')
         },
         methods:{
             updateWorkshop:function(){
@@ -99,7 +103,6 @@
 
 
 <style scoped lang="scss">
-
 
 
 </style>

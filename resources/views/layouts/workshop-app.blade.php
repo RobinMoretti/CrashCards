@@ -12,11 +12,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
+
 <body>
     <div id="app">
         @component('layouts.nav')
         @endcomponent
-
         <main>
             @yield('content')
         </main>
@@ -28,6 +28,11 @@
     {{-- <script src="/js/app.js"></script>  --}}
     <!-- Scripts -->
     <script src="{{ asset('js/workshopApp.js') }}" defer></script>
+    
 
+    <div class="invisible">
+        @yield('invisible-content')
+    </div>
 </body>
+
 </html>
