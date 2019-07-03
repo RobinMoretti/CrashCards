@@ -1,6 +1,6 @@
 @section('title', 'Workshop - ' . $workshop->name)
 
-@extends('layouts.app')
+@extends('layouts.workshop-app')
 
 @section('content')
 
@@ -10,6 +10,7 @@
             <div class="col border-dark border">
                 
                 <h3>Workshop</h3>
+                <p>prout</p>
                 <workshop-entry 
                             :workshop="{{ $workshop->toJson() }}"
                             :decks="{{ $decks->toJson() }}"
