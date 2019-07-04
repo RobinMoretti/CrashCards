@@ -1,4 +1,5 @@
 .workshop-header{
+	position: relative;
 	background-color: #DFE7ED;
 	border: 3px solid #9CACB9;
 	padding: 1rem;
@@ -11,10 +12,10 @@
 		
 		margin-right: 1rem;
 
-		-webkit-background-size: cover;
-		-moz-background-size: cover;
-		-o-background-size: cover;
-		background-size: cover;
+		-webkit-background-size: cover !important;
+		-moz-background-size: cover !important;
+		-o-background-size: cover !important;
+		background-size: cover !important;
 
 		border-radius: 100%;
 		border: solid white 5px; 
@@ -23,6 +24,17 @@
 	.data{
 		>*:first-child{
 			margin-top: 0;
+		}
+	}
+	.setting-page{
+		position: absolute;
+		right: 10px;
+		top: 10px;
+
+		width: 35px;
+
+		img{
+			width: 100%;
 		}
 	}
 }

@@ -57589,6 +57589,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('workshop-entry', __webpac
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('axios-input', __webpack_require__(103));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('workshop-input', __webpack_require__(108));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('date-picker-input', __webpack_require__(113));
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('axios-background-image', __webpack_require__(127));
 
 
 
@@ -57623,11 +57624,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.mixin({
 //  / _, _/ /_/ / /_/ / /_/  __(__  )
 // /_/ |_|\____/\__,_/\__/\___/____/
 
-var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_workshop_test_vue___default.a }, { path: '/test2', component: __WEBPACK_IMPORTED_MODULE_7__components_workshop_test2_vue___default.a }, { path: '*', redirect: '/' }];
+var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_workshop_test_vue___default.a, name: 'home' }, { path: '/test2', component: __WEBPACK_IMPORTED_MODULE_7__components_workshop_test2_vue___default.a, name: 'settings' }, { path: '*', redirect: '/' }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
     base: '/workshops/' + document.getElementById('workshop-id').textContent,
-    // mode: 'history',
     routes: routes // short for `routes: routes`
 });
 
@@ -57637,6 +57637,15 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     methods: {
         toogleMobileNav: function toogleMobileNav() {
             document.getElementsByClassName("mobile-nav")[0].classList.toggle('invisible');
+        },
+        toggleSettings: function toggleSettings() {
+            if (this.$route.name == 'home') {
+                router.push({ name: 'settings' });
+            } else {
+                router.go(-1);
+            }
+            // router.push({ name: 'user', params: { userId: 123 }})
+            console.log(this.$route);
         }
     }
 });
@@ -65992,6 +66001,216 @@ Object.defineProperty(exports, '__esModule', { value: true });
 })));
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(128)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(130)
+/* template */
+var __vue_template__ = __webpack_require__(131)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-56868938"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/workshop/AxiosBackgroundImage.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-56868938", Component.options)
+  } else {
+    hotAPI.reload("data-v-56868938", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(129);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("3fd840ec", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-56868938\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AxiosBackgroundImage.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-56868938\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./AxiosBackgroundImage.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.edit-button[data-v-56868938] {\n  background-color: white;\n  border: 1px grey solid;\n  border-radius: 100%;\n  cursor: pointer;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_bus__ = __webpack_require__(54);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+        var app = this;
+
+        __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* default */].$on('updateWorkshop', function (data) {
+            app.updateWorkshop(data);
+        }.bind(app));
+    },
+
+    props: {
+        image: {
+            type: String
+        },
+        workshop: {
+            type: Object
+        },
+        urlAjax: {
+            type: String
+        }
+    },
+    data: function data() {
+        return {
+            imageModified: this.image,
+            imageFile: null
+        };
+    },
+    methods: {
+        openDialog: function openDialog() {
+            this.$refs.fileInput.click();
+        },
+        updateWorkshop: function updateWorkshop(event) {
+            var _this = this;
+
+            if (event) {
+                var formData = new FormData();
+                formData.append('file', event.target.files[0]);
+
+                console.log(formData);
+                var settings = { headers: { 'content-type': 'multipart/form-data' } };
+
+                axios.post(this.urlAjax, formData, {
+                    _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+                    headers: { 'content-type': 'multipart/form-data' }
+                }).then(function (response) {
+                    _this.imageModified = response.data;
+                }).catch(function (e) {
+                    console.log(e);
+                });
+            }
+        }
+    }
+});
+
+/***/ }),
+/* 131 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "img-container",
+        style:
+          "background: url(" + _vm.imageModified + ") no-repeat center center"
+      },
+      [
+        _c("img", {
+          staticClass: "edit-button",
+          attrs: { src: "/icons/edit.svg", alt: "" },
+          on: { click: _vm.openDialog }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "invisible" }, [
+          _c("input", {
+            ref: "fileInput",
+            attrs: { type: "file", size: "1048576" },
+            on: { change: _vm.updateWorkshop }
+          })
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-56868938", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

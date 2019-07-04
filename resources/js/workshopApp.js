@@ -36,6 +36,7 @@ Vue.component('workshop-entry', require('./components/WorkshopEntry.vue'));
 Vue.component('axios-input', require('./components/AxiosInput.vue'));
 Vue.component('workshop-input', require('./components/workshop/WorkshopInput.vue'));
 Vue.component('date-picker-input', require('./components/workshop/DatePickerInput.vue'));
+Vue.component('axios-background-image', require('./components/workshop/AxiosBackgroundImage.vue'));
 
 import test from './components/workshop/test.vue';
 import test2 from './components/workshop/test2.vue';
@@ -71,14 +72,13 @@ Vue.mixin({
 // /_/ |_|\____/\__,_/\__/\___/____/
 
 const routes = [
-  { path: '/', component: test },
-  { path: '/test2', component: test2 },
+  { path: '/', component: test, name: 'home' },
+  { path: '/test2', component: test2, name: 'settings' },
   { path: '*', redirect: '/' }
 ]
 
 const router = new VueRouter({
     base: '/workshops/' + document.getElementById('workshop-id').textContent, 
-    // mode: 'history',
     routes: routes // short for `routes: routes`
 })
 
@@ -88,6 +88,17 @@ const app = new Vue({
     methods: {
     	toogleMobileNav: function(){
     		document.getElementsByClassName("mobile-nav")[0].classList.toggle('invisible');
-    	}
+    	},
+        toggleSettings: function(){
+            if(this.$route.name == 'home'){
+                router.push({ name: 'settings'})
+            }
+            else{
+                router.go(-1);
+            }
+            // router.push({ name: 'user', params: { userId: 123 }})
+            console.log(this.$route)
+
+        },
     }
 });

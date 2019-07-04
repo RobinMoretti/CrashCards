@@ -7,6 +7,8 @@ use App\User;
 use App\Workshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class WorkshopController extends Controller
 {
@@ -100,5 +102,22 @@ class WorkshopController extends Controller
             $workshops = null;
 
     	return $workshops;
+    }
+
+    public function updateWorkshopImage(Request $request, Workshop $workshop)
+    {        
+            // logger(dump($request->file));
+
+            $request->validate([
+                'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:100000',
+            ]);
+
+
+            $path = URL::to('/') . '/' . $request->file('file')->store('public/workshops/'.$workshop->id);
+
+            $workshop->image_header = $path;
+            $workshop->save();
+
+            return $path;
     }
 }

@@ -4,9 +4,11 @@
 
 @section('content')
     <div class="workshop-header">
-        <div class="img-container" style="background: url('{{ asset('images/360.jpg') }}') no-repeat center center">
-            {{-- <img src="{{ asset('images/360.jpg') }}" alt=""> --}}
-        </div>
+        <axios-background-image 
+        class="header-image" 
+        image="{{ $workshop->image_header }}"
+        url-ajax="{{ route('update-workshop-image', compact('workshop')) }}"></axios-background-image>
+
 
         <div class="data">
             <workshop-input
@@ -15,25 +17,19 @@
             >
             </workshop-input>
         </div>
+
+        <div class="setting-page" v-on:click="toggleSettings">
+            <img src="/icons/settings.svg" alt="">
+        </div>
     </div>  
 
     <router-view></router-view>
-
-    {{-- <workshop-entry 
-                :workshop="{{ $workshop->toJson() }}"
-                :decks="{{ $decks->toJson() }}"
-                url-ajax="{{ route('workshop-entry', compact('workshop')) }}" 
-                @if(Auth::check())
-                    :author="{{ Auth::user()->toJson() }}"
-                @endif
-                >                
-    </workshop-entry> --}}
 
 @endsection
 
 @section('invisible-content')
 
-    {{-- url setting !!! dont touch, only for vuejs app --}}
+    {{-- url setting !!! dont touch, only for vuejs router --}}
    <p id="workshop-id">{{$workshop->id}}</p>
 
 @endsection

@@ -1,4 +1,5 @@
 .workshop-header {
+  position: relative;
   background-color: #DFE7ED;
   border: 3px solid #9CACB9;
   padding: 1rem;
@@ -14,12 +15,23 @@
   width: 100px;
   height: 100px;
   margin-right: 1rem;
-  background-size: cover;
+  background-size: cover !important;
   border-radius: 100%;
   border: solid white 5px;
 }
 
 .workshop-header .data > *:first-child {
   margin-top: 0;
+}
+
+.workshop-header .setting-page {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 35px;
+}
+
+.workshop-header .setting-page img {
+  width: 100%;
 }
 
