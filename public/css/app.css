@@ -626,6 +626,10 @@ input {
           align-items: baseline;
 }
 
+.m-0 {
+  margin: 0rem;
+}
+
 .m-1 {
   margin: 0.3rem;
 }
@@ -644,6 +648,10 @@ input {
 
 .m-4 {
   margin: 2rem;
+}
+
+.ml-0 {
+  margin-left: 0rem;
 }
 
 .ml-1 {
@@ -666,6 +674,10 @@ input {
   margin-left: 2rem;
 }
 
+.mr-0 {
+  margin-right: 0rem;
+}
+
 .mr-1 {
   margin-right: 0.3rem;
 }
@@ -686,6 +698,10 @@ input {
   margin-right: 2rem;
 }
 
+.mb-0 {
+  margin-bottom: 0rem;
+}
+
 .mb-1 {
   margin-bottom: 0.3rem;
 }
@@ -704,6 +720,10 @@ input {
 
 .mb-4 {
   margin-bottom: 2rem;
+}
+
+.mt-0 {
+  margin-top: 0rem;
 }
 
 .mt-1 {

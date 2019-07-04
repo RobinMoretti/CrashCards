@@ -30,13 +30,15 @@ require('vue-flash-message/dist/vue-flash-message.min.css'); // too replace late
 //     console.log(e);
 // })
 
+Vue.use(require('vue-moment'));
 
-// Vue.component('workshop-entry', require('./components/WorkshopEntry.vue'));
+Vue.component('workshop-entry', require('./components/WorkshopEntry.vue'));
+Vue.component('axios-input', require('./components/AxiosInput.vue'));
+Vue.component('workshop-input', require('./components/workshop/WorkshopInput.vue'));
+Vue.component('date-picker-input', require('./components/workshop/DatePickerInput.vue'));
 
-import workshopEntry from './components/WorkshopEntry.vue';
 import test from './components/workshop/test.vue';
 import test2 from './components/workshop/test2.vue';
-
  
 Vue.use(VModal)
 

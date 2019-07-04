@@ -1,0 +1,28 @@
+.workshop-header{
+	background-color: #DFE7ED;
+	border: 3px solid #9CACB9;
+	padding: 1rem;
+	display: flex;
+	justify-content: start;
+
+	.img-container{
+		width: 100px;
+		height: 100px;
+		
+		margin-right: 1rem;
+
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+
+		border-radius: 100%;
+		border: solid white 5px; 
+	}
+
+	.data{
+		>*:first-child{
+			margin-top: 0;
+		}
+	}
+}

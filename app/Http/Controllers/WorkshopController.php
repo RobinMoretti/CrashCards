@@ -73,12 +73,13 @@ class WorkshopController extends Controller
                 '_data' => 'required',
             ]);
 
+            $newWorkshop = $request->_data;
+
             $user = Auth::user();
 
             if($workshop->author->id == $user->id){
-
-                $workshop->name = $request->_data['name'];
-                $workshop->deck_id = $request->_data['deck_id'];
+                unset($newWorkshop['author']);
+                $workshop->fill($newWorkshop);
                 $workshop->save();
 
                 return 'true';

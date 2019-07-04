@@ -15,9 +15,23 @@
 </template>
 
 <script>
-    export default {
+    export default { 
+        props:{
+        },
+        data: function () {
+            return {
+            }
+        },
+        computed:{
+        },
         mounted() {
-            console.log('Component mounted.')
+        },
+        methods:{
         }
     }
 </script>
+
+
+<style scoped lang="scss">
+
+</style>

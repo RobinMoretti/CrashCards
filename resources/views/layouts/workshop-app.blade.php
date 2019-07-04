@@ -10,6 +10,7 @@
     <title>{{ config('app.name') }}</title>
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/workshop.css') }}" rel="stylesheet">
 
 </head>
 
