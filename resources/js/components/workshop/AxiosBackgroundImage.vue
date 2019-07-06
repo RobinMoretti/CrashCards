@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="img-container" :style="'background: url(' + imageModified + ') no-repeat center center'">
+        <div class="img-container" :style="'background: url(' + workshop.image_header + ') no-repeat center center'">
             <img src="/icons/edit.svg" alt="" class="edit-button" v-on:click="openDialog">
 
             <div class="invisible">
@@ -11,31 +11,18 @@
 </template>
 
 <script>
-    import EventBus from '../../event-bus';
-
     export default {
         mounted() {
-            var app = this;
-
-            EventBus.$on('updateWorkshop', function(data){
-                app.updateWorkshop(data)
-            }.bind(app));
         },
         props:{
-            image: {
-                type: String
-            },
-            workshop: {
-                type: Object
-            },
-            urlAjax: {
-                type: String
+        },
+        computed: {
+            workshop () {
+                return this.$store.getters.workshop
             }
         },
         data: function () {
             return {
-                imageModified: this.image,
-                imageFile: null
             }
         },
         methods: {
@@ -45,21 +32,23 @@
             updateWorkshop: function(event){
                 if(event){
                     let formData = new FormData();
+
                     formData.append('file', event.target.files[0]);
 
-                    console.log(formData)
-                    let settings = { headers: { 'content-type': 'multipart/form-data' } }
+                    const payload = {
+                        "property": this.property,
+                        "formData": formData,
+                    }
 
-                    axios.post(this.urlAjax, formData, {
-                      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-                      headers: { 'content-type': 'multipart/form-data' } 
-                    })
-                    .then(response => {
-                        this.imageModified = response.data;
-                    })
-                    .catch(e => {
-                      console.log(e)
-                    })
+                    this.$store.dispatch('setWorkshopImage', payload).then(
+                        resolve => {
+                            console.log('success')
+                        }, 
+                        reject => {
+                            console.log('reject')
+                            this.flash('Something was wrong, try later.', 'error');
+                        }
+                    )
                 }
             },
         }

@@ -1,7 +1,10 @@
+
+@import 'variables';
+
 .workshop-header{
 	position: relative;
-	background-color: #DFE7ED;
-	border: 3px solid #9CACB9;
+	background-color: $grey-bg;
+	border: 3px solid $grey-border;
 	padding: 1rem;
 	display: flex;
 	justify-content: start;
@@ -26,6 +29,7 @@
 			margin-top: 0;
 		}
 	}
+
 	.setting-page{
 		position: absolute;
 		right: 10px;
@@ -37,4 +41,35 @@
 			width: 100%;
 		}
 	}
+}
+
+
+    
+.workshop-content{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .teams-container{
+        width: 30%;
+        border: dotted 5px $grey-border;
+        padding: 1rem;
+        min-height: 300px;
+    }
+    .playing-table{
+        width: 70%;
+        background-color: $grey-bg;
+        padding: 1rem;
+        min-height: 300px;
+        border: rgba(0,0,0,0) solid 5px;
+    }
+}
+
+.settings-container{
+    .settings-column {
+		padding: 1rem;
+        border: solid 5px grey;
+        width: 33%;
+        min-height: 300px;
+    }
 }

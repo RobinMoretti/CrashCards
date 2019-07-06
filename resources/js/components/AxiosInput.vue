@@ -13,7 +13,7 @@
             id="content-input" 
             name="content-input" 
             maxlength="50" 
-            v-model="content"
+            v-model="inputContent"
             v-on:keydown.enter="update"
             v-if="inputTag == 'input'"
             >
@@ -21,7 +21,7 @@
             <textarea 
             id="story" 
             name="story"
-            v-model="content"
+            v-model="inputContent"
             rows="5" cols="60"
             v-if="inputTag == 'textarea'">
             </textarea>
@@ -35,16 +35,6 @@
     import EventBus from '../event-bus';
 
     export default {
-        mounted() {
-            var app = this;
-
-            EventBus.$on('updatedWorkshop', function(data){
-                if(data[0] == app.property && data[1] == true){
-                    this.editMode = false;
-                }
-            }.bind(app));
-
-        },
         props:{
             tag: {
                 default: 'p',
@@ -54,7 +44,7 @@
                 default: 'input',
                 type: String
             },
-            originalContent:{
+            content:{
                 type: String
             }, 
             property: {
@@ -64,18 +54,36 @@
         data: function () {
             return {
                 editMode: false,
-                content: this.originalContent,
+                inputContent: this.content,
             }
         },
         methods: {
             toggleEditMode: function(){
                 this.editMode = !this.editMode;
+                this.inputContent = this.content;
             },
             update: function(){
                 if(this.content.length > 0 ){
                     console.log('emited');
-                    EventBus.$emit('updateWorkshop', [this.property, this.content]);
+
+                    const payload = {
+                        "property": this.property,
+                        "content": this.inputContent,
+                    }
+
+                    this.$store.dispatch('setWorkshopProperty', payload).then(
+                        resolve => {
+                            console.log('success')
+                        }, 
+                        reject => {
+                            console.log('reject')
+                            this.flash('Something was wrong, try later.', 'error');
+                        }
+                    )
+
                 }
+                
+                this.toggleEditMode();
             }
         }
     }

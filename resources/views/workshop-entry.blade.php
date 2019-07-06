@@ -3,12 +3,8 @@
 @extends('layouts.workshop-app')
 
 @section('content')
-    <div class="workshop-header">
-        <axios-background-image 
-        class="header-image" 
-        image="{{ $workshop->image_header }}"
-        url-ajax="{{ route('update-workshop-image', compact('workshop')) }}"></axios-background-image>
-
+    <div class="workshop-header mb-3">
+        <axios-background-image class="header-image"></axios-background-image>
 
         <div class="data">
             <workshop-input
@@ -23,7 +19,9 @@
         </div>
     </div>  
 
-    <router-view></router-view>
+    <transition  name="fade" mode="out-in">
+        <router-view></router-view>
+    </transition>
 
 @endsection
 
@@ -31,6 +29,10 @@
 
     {{-- url setting !!! dont touch, only for vuejs router --}}
    <p id="workshop-id">{{$workshop->id}}</p>
+
+   <script>
+       window.workshopBaseUrl = "{{ route('workshop-entry', compact('workshop')) }}";
+   </script>
 
 @endsection
 

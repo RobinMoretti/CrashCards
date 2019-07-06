@@ -1,5 +1,8 @@
 require('./bootstrap'); // this is not the boostrap plugin
 
+import 'es6-promise/auto'
+
+
 import Vue from 'vue';
 import VModal from 'vue-js-modal'
 import VueSelect from 'vue-cool-select'
@@ -38,8 +41,8 @@ Vue.component('workshop-input', require('./components/workshop/WorkshopInput.vue
 Vue.component('date-picker-input', require('./components/workshop/DatePickerInput.vue'));
 Vue.component('axios-background-image', require('./components/workshop/AxiosBackgroundImage.vue'));
 
-import test from './components/workshop/test.vue';
-import test2 from './components/workshop/test2.vue';
+import WorkshopContent from './components/workshop/WorkshopContent.vue';
+import Settings from './components/workshop/Settings.vue';
  
 Vue.use(VModal)
 
@@ -65,6 +68,10 @@ Vue.mixin({
     }
 })
 
+import WorkshopStore from './store/workshop/Workshop.js';
+
+
+
 //     ____              __
 //    / __ \____  __  __/ /____  _____
 //   / /_/ / __ \/ / / / __/ _ \/ ___/
@@ -72,8 +79,8 @@ Vue.mixin({
 // /_/ |_|\____/\__,_/\__/\___/____/
 
 const routes = [
-  { path: '/', component: test, name: 'home' },
-  { path: '/test2', component: test2, name: 'settings' },
+  { path: '/', component: WorkshopContent, name: 'home' },
+  { path: '/Settings', component: Settings, name: 'settings' },
   { path: '*', redirect: '/' }
 ]
 
@@ -100,5 +107,9 @@ const app = new Vue({
             console.log(this.$route)
 
         },
+    },
+    store: WorkshopStore,
+    created: function(){
+        this.$store.dispatch('initWorkshop');
     }
 });

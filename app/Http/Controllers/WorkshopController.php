@@ -30,6 +30,22 @@ class WorkshopController extends Controller
         }
     }
 
+
+    public function get(Request $request, Workshop $workshop)
+    {
+        if ($request->ajax()) {
+            $user = Auth::user();
+
+            if($workshop->author->id == $user->id){
+                $workshop->load('author');
+                return $workshop->toJson();
+            }else{
+                return 'false';
+            }
+
+        }
+    }
+
     public function create(Request $request)
     {
         $user = Auth::user();

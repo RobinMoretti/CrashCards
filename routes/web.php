@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::get('/workshops', 'WorkshopController@indexWorkshops')->name('workshops-manager');
 	Route::get('/workshops/add', 'WorkshopController@create')->name('add-workshop');
+	Route::post('/workshops/{workshop}/get', 'WorkshopController@get')->name('get-workshop');
 	Route::post('/workshops/{workshop}/remove', 'WorkshopController@destroy')->name('remove-workshop');
 	Route::post('/workshops/{workshop}/update', 'WorkshopController@updateWorkshop')->name('update-workshop');
 	Route::post('/workshops/{workshop}/update/image', 'WorkshopController@updateWorkshopImage')->name('update-workshop-image');

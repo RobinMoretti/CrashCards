@@ -35,3 +35,37 @@
   width: 100%;
 }
 
+.workshop-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.workshop-content .teams-container {
+  width: 30%;
+  border: dotted 5px #9CACB9;
+  padding: 1rem;
+  min-height: 300px;
+}
+
+.workshop-content .playing-table {
+  width: 70%;
+  background-color: #DFE7ED;
+  padding: 1rem;
+  min-height: 300px;
+  border: rgba(0, 0, 0, 0) solid 5px;
+}
+
+.settings-container .settings-column {
+  padding: 1rem;
+  border: solid 5px grey;
+  width: 33%;
+  min-height: 300px;
+}
+

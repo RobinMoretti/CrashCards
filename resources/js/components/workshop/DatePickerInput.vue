@@ -1,10 +1,10 @@
 <template>
     <span class="date-picker">
         <span class="static" v-on:click="toggleEditMode" v-if='!editMode'>
-            {{modifiedDate | moment('DD/MM/YYYY')}}
+            {{ date | moment('DD/MM/YYYY') }}
         </span>
         <span class="edit" v-else>
-            <datepicker :value="modifiedDate" @selected="updateDate"></datepicker>
+            <datepicker :value="date" @selected="updateDate"></datepicker>
         </span>
     </span>
 </template>
@@ -18,13 +18,6 @@
             Datepicker
         },
         mounted() {
-            var app = this;
-
-            EventBus.$on('updatedWorkshop', function(data){
-                if(data[0] == app.property && data[1] == true){
-                    this.editMode = false;
-                }
-            }.bind(app));
         },
         props:{
             date: {
@@ -46,8 +39,23 @@
             },
             updateDate: function(date){
                 this.modifiedDate = date;
-                console.log(this.getSqlDateFormat(this.modifiedDate))
-                EventBus.$emit('updateWorkshop', [this.property, this.getSqlDateFormat(this.modifiedDate)]);
+
+                const payload = {
+                    "property": this.property,
+                    "content": this.getSqlDateFormat(this.modifiedDate),
+                }
+
+                this.$store.dispatch('setWorkshopProperty', payload).then(
+                    resolve => {
+                        console.log('success')
+                    }, 
+                    reject => {
+                        console.log('reject')
+                        this.flash('Something was wrong, try later.', 'error');
+                    }
+                )
+
+                this.toggleEditMode();
             },
             getSqlDateFormat(date){
                 return date.toISOString().slice(0, 19).replace('T', ' ')
