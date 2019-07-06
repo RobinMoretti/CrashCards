@@ -5,7 +5,6 @@ import 'es6-promise/auto'
 
 import Vue from 'vue';
 import VModal from 'vue-js-modal'
-import VueSelect from 'vue-cool-select'
 
 import draggable from 'vuedraggable'
 Vue.component('draggable', draggable);
@@ -45,10 +44,6 @@ import WorkshopContent from './components/workshop/WorkshopContent.vue';
 import Settings from './components/workshop/Settings.vue';
  
 Vue.use(VModal)
-
-Vue.use(VueSelect, {
-  theme: 'bootstrap' // or 'material-design'
-})
 
 Vue.mixin({
     methods: {
@@ -104,7 +99,6 @@ const app = new Vue({
                 router.go(-1);
             }
             // router.push({ name: 'user', params: { userId: 123 }})
-            console.log(this.$route)
 
         },
     },

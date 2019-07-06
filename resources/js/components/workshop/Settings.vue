@@ -3,79 +3,84 @@
         <h2>Setting</h2>
         <div class="settings-column">
             <h3>Réglage généraux:</h3>
-<!-- 
+
             <axios-input 
             tag="p"
             property="private"
-            :originalContent="modifiedWorkshop.name"
+            :content="workshop.private"
             inputTag="checkbox"
-            ></axios-input>  -->
+            label="Le workshop est-il privée?"
+            :editable="false"
+            ></axios-input> 
+            <hr>
 
+            <h6>select Deck</h6>
+            <v-select 
+            v-model="selectedDeck" 
+            :options="decks"
+            label="name"
+            @input="updateDeck"
+            ></v-select>
         </div>
     </div>
 </template>
 
 <script>
     import EventBus from '../../event-bus';
+
+    import vSelect from 'vue-select'
+
+
     export default {
+        components:{
+            vSelect
+        },
         mounted() {
             var app = this;
 
-            EventBus.$on('updateWorkshopSettings', function(data){
-                app.updateWorkshopSettings(data)
+            EventBus.$on('workshop-initied', function() {
+              app.setWorkOptions();
             }.bind(app));
         },
         props:{
-            urlAjax: {
-                type: String
+        },
+        computed: {
+            workshop () {
+                return this.$store.getters.workshop
             },
-            workshop: {
-                type: Object
-            }
+            decks () {
+                return this.$store.getters.availableDecks;
+            },
         },
         data: function () {
             return {
-                modifiedWorkshop: this.workshop,
+                selectedDeck: {}
             }
         },
         methods: {
-            updateWorkshopSettings: function(data){
-                // if(data){
-                //     this.modifiedWorkshop[data[0]] = data[1];
-                // }
+            updateDeck: function(data){
 
-                // axios.post(this.urlAjax, {
-                //   _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-                //   _data: this.modifiedWorkshop,
-                // })
-                // .then(response => {
-                //     if(response.data){
-                //         EventBus.$emit('updateWorkshopSettings', [data[0], true]);
-                //     }else{
-                //         this.flash('Something was wrong, try later.', 'error');
-                //     }
-                // })
-                // .catch(e => {
-                //   console.log(e)
-                // })
+                this.selectedDeck = data;
+
+                const payload = {
+                    "deck": this.selectedDeck,
+                }
+
+                this.$store.dispatch('setWorkshopDeck', payload).then(
+                    resolve => {
+                        console.log('success')
+                    }, 
+                    reject => {
+                        console.log('reject')
+                        this.flash('Something was wrong, try later.', 'error');
+                    }
+                )
             },
-            getWorkshopObj: function(){
-
-                // axios.post(this.urlAjax, {
-                //   _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-                //   _data: this.modifiedWorkshop,
-                // })
-                // .then(response => {
-                //     if(response.data){
-                //         EventBus.$emit('updateWorkshopSettings', [data[0], true]);
-                //     }else{
-                //         this.flash('Something was wrong, try later.', 'error');
-                //     }
-                // })
-                // .catch(e => {
-                //   console.log(e)
-                // })
-            }
+            setWorkOptions: function(){
+                console.log('setWorkOptions')
+                // this.$set(this.selectedDeck,this.workshop.deck)
+                this.selectedDeck = this.workshop.deck;
+            },
         }
     }
 </script>

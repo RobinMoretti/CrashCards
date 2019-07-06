@@ -1,13 +1,13 @@
 <template>
     <div class="axios-input">
-        <div class="static" v-on:click="toggleEditMode" v-if="!editMode">
+        <div class="static" v-on:click="toggleEditMode" v-if="!editMode && editable">
             <component :is="tag" class="m-0 mr-3">
                 {{content}}
             </component>
             <img src="/icons/edit.svg" alt="">
         </div>
 
-        <div class="edit" v-else>
+        <div class="edit" v-if="editMode && editable">
             <input 
             type="text" 
             id="content-input" 
@@ -28,6 +28,23 @@
 
             <img src="/icons/save.svg" alt="" class="save" v-on:click="update">
         </div>
+
+        <div class="not-editable" v-if="!editable">
+            
+            <div 
+            class="checkbox"
+            v-if="inputTag == 'checkbox'"
+            >
+                <label for="checkbox" v-if="label">{{ label }}</label>
+                <input 
+                type="checkbox" 
+                id="checkbox" 
+                v-model="inputContent" 
+                v-on:change="update"
+                item-value="name"
+                >
+            </div>
+        </div>
     </div>
 </template>
 
@@ -45,25 +62,37 @@
                 type: String
             },
             content:{
-                type: String
             }, 
             property: {
                 type: String
+            }, 
+            label: {
+                type: String
+            },
+            editable:{
+                type: Boolean,
+                default: true
             }
         },
         data: function () {
             return {
                 editMode: false,
                 inputContent: this.content,
+                inputCheckboxContent: this.content,
             }
         },
         methods: {
             toggleEditMode: function(){
                 this.editMode = !this.editMode;
-                this.inputContent = this.content;
+                if(this.inputTag != "checkbox"){
+                    this.inputContent = this.content;
+                }
             },
             update: function(){
-                if(this.content.length > 0 ){
+                console.log('try to emited')
+                console.log("this.inputContent = " + this.inputContent);
+
+                if(this.checkInputContent(this.inputContent)){
                     console.log('emited');
 
                     const payload = {
@@ -84,6 +113,14 @@
                 }
                 
                 this.toggleEditMode();
+            },
+            checkInputContent: function(content){
+                // if(this.inputContent.length > 0 || this.inputContent == true)
+                if(content > 0 || content == true || content == false){
+                    return true;
+                }
+                    
+                return false;
             }
         }
     }

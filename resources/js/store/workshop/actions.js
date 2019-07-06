@@ -1,8 +1,11 @@
 
+import EventBus from '../../event-bus';
+
 export default {
 	async initWorkshop ({ commit }, payload) {
     let data;
 
+    // get initial workshop data
     await axios.post(window.workshopBaseUrl + "/get" , {
       _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
       headers: { 'content-type': 'multipart/form-data' } 
@@ -10,10 +13,27 @@ export default {
     .then(response => {
         data = response.data;
         commit("setWorkshop", data);
+        EventBus.$emit('workshop-initied');
     })
     .catch(e => {
       console.log(e)
     }) 
+
+    //get available Decks
+    await axios.post(window.workshopBaseUrl + "/available-decks" , {
+      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+      headers: { 'content-type': 'multipart/form-data' } 
+    })
+    .then(response => {
+        data = response.data;
+        commit("setAvailableDecks", data);
+        console.log('setAvailableDecks!')
+    })
+    .catch(e => {
+      console.log(e)
+    })
+
+
 	},
   async setWorkshopProperty ({ commit, state }, payload) {
     var workshop =Object.assign({},  state.workshop);
@@ -53,6 +73,26 @@ export default {
         console.log(response.data)
         return new Promise((resolve, reject) => {
           commit("setWorkshop", workshop);
+          resolve()
+        })
+    })
+    .catch(e => {
+      console.log(e)
+      return new Promise((resolve, reject) => {
+        reject()
+      })
+    })
+  },
+  async setWorkshopDeck ({ commit, state }, payload) {
+    await axios.post(window.workshopBaseUrl + "/set/deck", {
+      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+      _data: payload["deck"].id
+    })
+    .then(response => {
+        console.log(response.data)
+        var deck = response.data;
+        return new Promise((resolve, reject) => {
+          commit("setWorkshopDeck", deck);
           resolve()
         })
     })

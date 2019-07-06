@@ -31,7 +31,8 @@ export default new Vuex.Store({
 				"created_at": null,
 				"updated_at": null 
 			}
-		}
+		},
+		availableDecks: [],
 	},
 	mutations,
 	getters,

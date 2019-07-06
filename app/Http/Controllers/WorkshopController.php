@@ -38,6 +38,7 @@ class WorkshopController extends Controller
 
             if($workshop->author->id == $user->id){
                 $workshop->load('author');
+                $workshop->load('deck');
                 return $workshop->toJson();
             }else{
                 return 'false';
@@ -135,5 +136,30 @@ class WorkshopController extends Controller
             $workshop->save();
 
             return $path;
+    }
+
+    public function getAvailableDecks(Request $request, Workshop $workshop)
+    {
+        if ($request->ajax()) {
+            $availableDecks = Deck::where('user_id', Auth::user()->id)->get();
+            return $availableDecks;
+        }
+    }
+
+    public function setDeck(Request $request, Workshop $workshop)
+    {
+        if ($request->ajax()) {
+
+            $request->validate([
+                '_data' => 'required|numeric',
+            ]);
+
+            $deck = Deck::find($request->_data);
+
+            $workshop->deck()->associate($deck);
+            $workshop->save();
+
+            return $deck;
+        }
     }
 }

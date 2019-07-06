@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/workshops/{workshop}/update', 'WorkshopController@updateWorkshop')->name('update-workshop');
 	Route::post('/workshops/{workshop}/update/image', 'WorkshopController@updateWorkshopImage')->name('update-workshop-image');
 	Route::get('/workshops/{workshop}', 'WorkshopController@indexWorkshop')->name('workshop-entry');
+	Route::post('/workshops/{workshop}/available-decks', 'WorkshopController@getAvailableDecks')->name('workshop-available-decks');
+	Route::post('/workshops/{workshop}/set/deck', 'WorkshopController@setDeck')->name('set-decks');
 	// Route::post('/workshops/{workshop}/update', 'WorkshopController@updateWorkshop')->name('workshop-entry');
 
 	//    ______           __
