@@ -27,4 +27,9 @@ class Workshop extends Model
         return $this->hasMany(Team::class);
     }
 
+    public function participants()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
 }

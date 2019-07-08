@@ -4,3 +4,9 @@ export const workshop = (state, getters) => {
 export const availableDecks = (state, getters) => {
   return state.availableDecks
 }
+export const baseUrl = (state, getters) => {
+  return state.baseUrl
+}
+export const user = (state, getters) => {
+  return state.user
+}

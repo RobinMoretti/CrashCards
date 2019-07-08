@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddLinkPrivateToWorkshops extends Migration
+class CreateParticipantsTableModifiedWorkshop extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,15 @@ class AddLinkPrivateToWorkshops extends Migration
      */
     public function up()
     {
+        Schema::create('user_workshop', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('workshop_id')->nullable();
+            $table->timestamps();
+        });
+
         Schema::table('workshops', function (Blueprint $table) {              
-            $table->string('sharable_link')->nullable();          
-            $table->boolean('private')->default(false);
+            $table->boolean('public')->nullable()->default(false);          
         });
     }
 
@@ -26,9 +32,10 @@ class AddLinkPrivateToWorkshops extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('user_workshop');
+
         Schema::table('workshops', function (Blueprint $table) {     
             $table->dropColumn('sharable_link');
-            $table->dropColumn('private');
         });
     }
 }

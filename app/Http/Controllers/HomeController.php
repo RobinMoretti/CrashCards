@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Events\MessagePushed;
 use App\Workshop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -38,4 +39,12 @@ class HomeController extends Controller
         return view('home', compact('workshops'));
     }
 
+    public function getUser(Request $request)
+    {
+        if ($request->ajax()) {
+            if(Auth::check()){
+                return Auth::user()->toJson();
+            }
+        }
+    }
 }

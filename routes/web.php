@@ -17,6 +17,21 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/receive', 'HomeController@receive')->name('receive');
 
+Route::post('/get-user', 'HomeController@getUser')->name('get-user');
+
+
+//                       __        __
+//  _      ______  _____/ /_______/ /_  ____  ____  _____
+// | | /| / / __ \/ ___/ //_/ ___/ __ \/ __ \/ __ \/ ___/
+// | |/ |/ / /_/ / /  / ,< (__  ) / / / /_/ / /_/ (__  )
+// |__/|__/\____/_/  /_/|_/____/_/ /_/\____/ .___/____/
+//                                        /_/
+
+Route::get('/join/{joinCode?}', 'WorkshopController@joinWorkshop')->name('workshop-join');
+Route::get('/workshops/{workshop}', 'WorkshopController@indexWorkshop')->name('workshop-entry');
+
+
+
 Route::middleware(['auth'])->group(function () {
 
 	//                       __        __
@@ -32,10 +47,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/workshops/{workshop}/remove', 'WorkshopController@destroy')->name('remove-workshop');
 	Route::post('/workshops/{workshop}/update', 'WorkshopController@updateWorkshop')->name('update-workshop');
 	Route::post('/workshops/{workshop}/update/image', 'WorkshopController@updateWorkshopImage')->name('update-workshop-image');
-	Route::get('/workshops/{workshop}', 'WorkshopController@indexWorkshop')->name('workshop-entry');
 	Route::post('/workshops/{workshop}/available-decks', 'WorkshopController@getAvailableDecks')->name('workshop-available-decks');
 	Route::post('/workshops/{workshop}/set/deck', 'WorkshopController@setDeck')->name('set-decks');
-	// Route::post('/workshops/{workshop}/update', 'WorkshopController@updateWorkshop')->name('workshop-entry');
 
 	//    ______           __
 	//   / ____/___ ______/ /____  _____
@@ -83,3 +96,4 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/users/{user}/update', 'UserController@update')->name('update-user');
 
 });
+

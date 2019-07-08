@@ -3,7 +3,10 @@
         <h2>Setting</h2>
         <div class="settings-column">
             <h3>Réglage généraux:</h3>
-
+            <div>
+                <h3>Sharable link:</h3>
+                <p>{{ baseUrl }}/join/{{workshop.sharable_link}}</p>
+            </div>
             <axios-input 
             tag="p"
             property="private"
@@ -12,9 +15,10 @@
             label="Le workshop est-il privée?"
             :editable="false"
             ></axios-input> 
-            <hr>
+            <hr> 
 
             <h6>select Deck</h6>
+
             <v-select 
             v-model="selectedDeck" 
             :options="decks"
@@ -30,7 +34,6 @@
 
     import vSelect from 'vue-select'
 
-
     export default {
         components:{
             vSelect
@@ -45,6 +48,9 @@
         props:{
         },
         computed: {
+            baseUrl () {
+                return this.$store.getters.baseUrl
+            },
             workshop () {
                 return this.$store.getters.workshop
             },
@@ -54,7 +60,8 @@
         },
         data: function () {
             return {
-                selectedDeck: {}
+                selectedDeck: {},
+                workshopBaseUrl: window.workshopBaseUrl
             }
         },
         methods: {

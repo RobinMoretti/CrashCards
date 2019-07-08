@@ -11,6 +11,12 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'email',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -18,15 +24,6 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
     ];
 
     public function cards()
@@ -47,5 +44,10 @@ class User extends Authenticatable
     public function decks()
     {
         return $this->hasMany(Deck::class);
+    }
+
+    public function workshopsAsParticipant()
+    {
+        return $this->belongsToMany(Workshop::class);
     }
 }

@@ -32,7 +32,14 @@ export default new Vuex.Store({
 				"updated_at": null 
 			}
 		},
+		user: { 
+			"id": null, 
+			"name": null,
+			"username": null,
+			"author": false,
+		},
 		availableDecks: [],
+		baseUrl: document.getElementById("site-base-url").textContent
 	},
 	mutations,
 	getters,

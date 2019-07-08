@@ -2,7 +2,7 @@
 import EventBus from '../../event-bus';
 
 export default {
-	async initWorkshop ({ commit }, payload) {
+	async initWorkshop ({ commit, state }, payload) {
     let data;
 
     // get initial workshop data
@@ -33,7 +33,17 @@ export default {
       console.log(e)
     })
 
-
+    //get User
+    await axios.post( state.baseUrl + "/get-user" , {
+      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+    })
+    .then(response => {
+        data = response.data;
+        commit("setUser", data);
+    })
+    .catch(e => {
+      console.log(e)
+    })
 	},
   async setWorkshopProperty ({ commit, state }, payload) {
     var workshop =Object.assign({},  state.workshop);
@@ -41,12 +51,12 @@ export default {
 
     await axios.post(window.workshopBaseUrl + "/update" , {
       _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-      headers: { 'content-type': 'multipart/form-data' },
       _data: workshop,
     })
     .then(response => {
         // data = response.data;
       return new Promise((resolve, reject) => {
+        console.log(workshop)
         commit("setWorkshop", workshop);
         resolve()
       })
@@ -104,8 +114,6 @@ export default {
     })
   },
 }
-
-
 
 	// async initWorkshop ({ commit }, payload) {
 	// 	let data;

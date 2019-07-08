@@ -4,12 +4,14 @@
         tag="h1"
         property="name"
         :content="workshop.name"
+        default-content="Workshop name"
         ></axios-input> 
 
         <axios-input 
         tag="p"
         property="description"
         :content="workshop.description"
+        default-content="Workshop description"
         inputTag="textarea"
         ></axios-input> 
 

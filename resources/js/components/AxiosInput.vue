@@ -1,9 +1,14 @@
 <template>
     <div class="axios-input">
         <div class="static" v-on:click="toggleEditMode" v-if="!editMode && editable">
-            <component :is="tag" class="m-0 mr-3">
+            <component :is="tag" class="m-0 mr-3" v-if="checkInputContent(content)">
                 {{content}}
             </component>
+
+            <component class="m-0 mr-3" :is="tag" v-if="!checkInputContent(content) && checkInputContent(defaultContent)">
+               {{ defaultContent }} 
+            </component>
+
             <img src="/icons/edit.svg" alt="">
         </div>
 
@@ -16,6 +21,7 @@
             v-model="inputContent"
             v-on:keydown.enter="update"
             v-if="inputTag == 'input'"
+            :placeholder="defaultContent" 
             >
 
             <textarea 
@@ -23,6 +29,7 @@
             name="story"
             v-model="inputContent"
             rows="5" cols="60"
+            :placeholder="defaultContent" 
             v-if="inputTag == 'textarea'">
             </textarea>
 
@@ -72,6 +79,9 @@
             editable:{
                 type: Boolean,
                 default: true
+            },
+            defaultContent:{
+                type: String,
             }
         },
         data: function () {
@@ -91,6 +101,7 @@
             update: function(){
                 console.log('try to emited')
                 console.log("this.inputContent = " + this.inputContent);
+                console.log("this.inputContent = " + this.checkInputContent(this.inputContent));
 
                 if(this.checkInputContent(this.inputContent)){
                     console.log('emited');
@@ -115,11 +126,11 @@
                 this.toggleEditMode();
             },
             checkInputContent: function(content){
-                // if(this.inputContent.length > 0 || this.inputContent == true)
-                if(content > 0 || content == true || content == false){
-                    return true;
+                if(content != null){
+                    if(content.length > 0 || content == true || content == false){
+                        return true;
+                    } 
                 }
-                    
                 return false;
             }
         }

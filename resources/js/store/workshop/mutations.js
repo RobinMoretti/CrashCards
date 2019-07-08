@@ -11,6 +11,9 @@ export default {
 		state.workshop.deck = data;
 		state.workshop.deck_id = data.id;
 	},
+	setUser (state, data) {
+		state.user = data;
+	},
 }
 
 // function setWorkshop (state, data) {
