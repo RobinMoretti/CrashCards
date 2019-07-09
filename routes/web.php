@@ -27,7 +27,8 @@ Route::post('/get-user', 'HomeController@getUser')->name('get-user');
 // |__/|__/\____/_/  /_/|_/____/_/ /_/\____/ .___/____/
 //                                        /_/
 
-Route::get('/join/{joinCode?}', 'WorkshopController@joinWorkshop')->name('workshop-join');
+Route::get('/join/{joinCode?}', 'WorkshopController@tryJoinWorkshop')->name('workshop-try-join');
+Route::get('/join/{joinCode?}/joinning', 'WorkshopController@joinWorkshop')->name('workshop-join');
 Route::get('/workshops/{workshop}', 'WorkshopController@indexWorkshop')->name('workshop-entry');
 
 

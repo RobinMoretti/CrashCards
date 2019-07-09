@@ -3,37 +3,13 @@
 @extends('layouts.workshop-app')
 
 @section('content')
-    <div class="workshop-header mb-3">
-        <axios-background-image class="header-image"></axios-background-image>
-
-        <div class="data">
-            <workshop-input
-            url-ajax="{{ route('update-workshop', compact('workshop')) }}"
-            :workshop="{{$workshop}}"
-            >
-            </workshop-input>
-        </div>
-
-        <div class="setting-page" v-on:click="toggleSettings">
-            <img src="/icons/settings.svg" alt="">
-        </div>
-    </div>  
-
-    <transition  name="fade" mode="out-in">
-        <router-view></router-view>
-    </transition>
-
-@endsection
-
-@section('invisible-content')
-
-    {{-- url setting !!! dont touch, only for vuejs router --}}
-   <p id="workshop-id">{{ $workshop->id }}</p>
-   <p id="site-base-url">{{ URL::to('/') }}</p>
-
-   <script>
-       window.workshopBaseUrl = "{{ route('workshop-entry', compact('workshop')) }}";
-   </script>
-
+  <div class="workshop-join">
+    <img src="{{ $workshop->image }}" alt="">
+    <h1>{{ $workshop->name }}</h1>
+    <h2>{{ $workshop->description }}</h2>
+    <p>Hosted by {{ $workshop->author->name }}</p>
+    <p>from {{ $workshop->start_date->isoFormat('dd/mm/yyyy') }} to {{ $workshop->end_date->isoFormat('dd/mm/yyyy') }}</p>
+    <p>You was</p>
+  </div>  
 @endsection
 

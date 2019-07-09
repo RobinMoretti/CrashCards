@@ -5,6 +5,13 @@
             <span class="text">Crash Card Club</span>
         </a>
 
+        @auth
+            <div class="user-header">
+                <img src="{{asset('images/placeholderUser/1.jpg') }}" alt="">
+                <span>{{ Auth::user()->name }}</span>
+            </div>
+        @endauth
+
         @if(Route::currentRouteName() != "home")
             <div class="page-name" id="{{ Route::currentRouteName() }}-nav-header">
                 <span class="title">@yield('title')</span>

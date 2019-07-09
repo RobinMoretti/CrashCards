@@ -193,14 +193,30 @@ class WorkshopController extends Controller
     }
 
     
-    public function joinWorkshop(Request $request, String $joinCode = "")
+    public function tryJoinWorkshop(Request $request, String $joinCode = "")
     {   
         $workshop = Workshop::where('sharable_link', $joinCode)->first();
         if(isset($workshop)){
             //join woirkshop
-            $decks = Deck::all();
-            // return view('workshop-entry', compact('workshop', 'decks'));
-            return redirect()->route('workshop-entry', compact('workshop', 'decks'));
+            return view('workshop-join', compact('workshop', 'joinCode') );
+        }
+        else{
+            abort(404);
+        }
+    }
+
+    public function joinWorkshop(Request $request, String $joinCode = "")
+    {
+        $workshop = Workshop::where('sharable_link', $joinCode)->first();
+        if(isset($workshop)){
+            if(Auth::check()){
+                $workshop->participants()->attach(Auth::user());
+                $workshop->save();
+
+                return redirect()->route('workshop-entry', compact('workshop'));
+            }else{
+                abort(404);
+            }
         }
         else{
             abort(404);

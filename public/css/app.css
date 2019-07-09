@@ -439,6 +439,34 @@ main {
   display: none;
 }
 
+.user-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.user-header img {
+  border-radius: 100%;
+  width: 80px;
+  border: grey solid 5px;
+  margin-right: 1rem;
+}
+
+.user-header span {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
 input {
   border-radius: 3px;
   border: 3px solid black;
