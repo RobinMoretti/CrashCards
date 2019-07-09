@@ -23,6 +23,8 @@ export default {
 
         commit("setAuthorRights", Boolean(data[3]));
 
+        commit("setTeams", data[4]);
+
     })
     .catch(e => {
       console.log(e)

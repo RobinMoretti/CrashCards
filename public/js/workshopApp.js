@@ -54915,39 +54915,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -55012,20 +54979,20 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {},
-    [
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", {}, [
       _c("p", [_vm._v("Workshop")]),
       _vm._v(" "),
-      _c("p", [_vm._v("PROUT")]),
-      _vm._v(" "),
-      _c("router-view")
-    ],
-    1
-  )
-}
-var staticRenderFns = []
+      _c("p", [_vm._v("PROUT")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -55107,7 +55074,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_workshop_WorkshopContent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_workshop_WorkshopContent_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_workshop_Settings_vue__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_workshop_Settings_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__components_workshop_Settings_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__store_workshop_Workshop_js__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_workshop_Table_vue__ = __webpack_require__(159);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_workshop_Table_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__components_workshop_Table_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_workshop_TeamSettings_vue__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_workshop_TeamSettings_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__components_workshop_TeamSettings_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__store_workshop_Workshop_js__ = __webpack_require__(137);
 __webpack_require__(17); // this is not the boostrap plugin
 
 
@@ -55149,6 +55120,10 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('workshop-input', __webpac
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('team-manager', __webpack_require__(147));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('date-picker-input', __webpack_require__(115));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('axios-background-image', __webpack_require__(121));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('playing-table', __webpack_require__(153));
+
+
+
 
 
 
@@ -55177,6 +55152,16 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.mixin({
         autoInputFailed: function autoInputFailed(target) {
             target.classList.remove('saving');
             target.classList.add('saved-failed');
+        },
+        toggleTeamSettings: function toggleTeamSettings() {
+            // router.push({ name: 'team-settings'})
+            if (this.isAuthor) {
+                if (this.$route.name == 'table') {
+                    router.push({ name: 'team-settings' });
+                } else {
+                    router.push({ name: 'table' });
+                }
+            }
         }
     }
 });
@@ -55189,12 +55174,22 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.mixin({
 //  / _, _/ /_/ / /_/ / /_/  __(__  )
 // /_/ |_|\____/\__,_/\__/\___/____/
 
-var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_workshop_WorkshopContent_vue___default.a, name: 'home' }, { path: '/Settings', component: __WEBPACK_IMPORTED_MODULE_7__components_workshop_Settings_vue___default.a, name: 'settings' }, { path: '*', redirect: '/' }];
+var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_workshop_WorkshopContent_vue___default.a, name: 'home',
+    children: [{
+        path: '',
+        component: __WEBPACK_IMPORTED_MODULE_8__components_workshop_Table_vue___default.a,
+        name: 'table'
+    }, {
+        path: 'team-settings',
+        component: __WEBPACK_IMPORTED_MODULE_9__components_workshop_TeamSettings_vue___default.a,
+        name: 'team-settings'
+    }]
+}, { path: '/settings', component: __WEBPACK_IMPORTED_MODULE_7__components_workshop_Settings_vue___default.a, name: 'settings' }];
 
 var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
     base: '/workshops/' + document.getElementById('workshop-id').textContent,
-    routes: routes, // short for `routes: routes`,
-    mode: 'history'
+    routes: routes // short for `routes: routes`,
+    // mode: 'history',
 });
 
 var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
@@ -55206,16 +55201,15 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
         },
         toggleSettings: function toggleSettings() {
             if (this.isAuthor) {
-                if (this.$route.name == 'home') {
+                if (this.$route.name != 'settings') {
                     router.push({ name: 'settings' });
                 } else {
-                    router.go(-1);
+                    router.push({ name: 'table' });
                 }
             }
-            // router.push({ name: 'user', params: { userId: 123 }})
         }
     },
-    store: __WEBPACK_IMPORTED_MODULE_8__store_workshop_Workshop_js__["a" /* default */],
+    store: __WEBPACK_IMPORTED_MODULE_10__store_workshop_Workshop_js__["a" /* default */],
     created: function created() {
         this.$store.dispatch('initWorkshop');
     }
@@ -67271,21 +67265,17 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(127)
-}
 var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(129)
 /* template */
-var __vue_template__ = __webpack_require__(130)
+var __vue_template__ = __webpack_require__(165)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-543ca295"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -67318,57 +67308,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 127 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(128);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("3a0bc6f1", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-543ca295\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WorkshopContent.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-543ca295\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./WorkshopContent.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 128 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(1)(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/***/ }),
+/* 127 */,
+/* 128 */,
 /* 129 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -67385,46 +67331,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 130 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "workshop-content" },
-    [_c("team-manager", {}), _vm._v(" "), _vm._m(0)],
-    1
-  )
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "playing-table" }, [
-      _c("div", { staticClass: "cards-container" }, [
-        _c("h2", [_vm._v("Cards")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "team-container" }, [
-        _c("h2", [_vm._v("Team data")])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-543ca295", module.exports)
-  }
-}
-
-/***/ }),
+/* 130 */,
 /* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -68800,6 +68707,9 @@ var index_esm = {
 	},
 	setAuthorRights: function setAuthorRights(state, data) {
 		state.isAuthorOfWorkshop = data;
+	},
+	setTeams: function setTeams(state, data) {
+		state.teams = data;
 	}
 });
 
@@ -68851,6 +68761,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 commit("setUser", data[2]);
 
                 commit("setAuthorRights", Boolean(data[3]));
+
+                commit("setTeams", data[4]);
               }).catch(function (e) {
                 console.log(e);
               });
@@ -69839,21 +69751,17 @@ var teams = function teams(state, getters) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(148)
-}
 var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(150)
 /* template */
-var __vue_template__ = __webpack_require__(151)
+var __vue_template__ = __webpack_require__(152)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
-var __vue_scopeId__ = "data-v-b93da29a"
+var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
@@ -69886,47 +69794,162 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 148 */
+/* 148 */,
+/* 149 */,
+/* 150 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {},
+    data: function data() {
+        return {};
+    },
+    computed: {
+        teams: function teams() {
+            this.$store.getters.teams;
+        }
+    },
+    mounted: function mounted() {},
+
+    methods: {
+        createTeam: function createTeam() {
+
+            // this.$store.dispatch('createTeam').then(
+            //     resolve => {
+            //         console.log('success')
+            //     }, 
+            //     reject => {
+            //         console.log('reject')
+            //         this.flash('Something was wrong, try later.', 'error');
+            //     }
+            // )
+        }
+    }
+});
+
+/***/ }),
+/* 151 */,
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(149);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(2)("21ade2d6", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b93da29a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TeamManager.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b93da29a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TeamManager.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "teams-container" },
+    [
+      _c("h2", [_vm._v("teams")]),
+      _vm._v(" "),
+      _vm._l(_vm.teams, function(team) {
+        return _c(
+          "div",
+          { staticClass: "team" },
+          [
+            _c("h3", [_vm._v(_vm._s(team.name))]),
+            _vm._v(" "),
+            _vm._l(team, function(user) {
+              return _c("img", { attrs: { src: user.image.url } })
+            })
+          ],
+          2
+        )
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "team adding-team", on: { click: _vm.createTeam } },
+        [
+          _c("img", { attrs: { src: "/icons/add.svg", alt: "" } }),
+          _vm._v(" "),
+          _c("p", [_vm._v("ADD TEAM")])
+        ]
+      )
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b93da29a", module.exports)
+  }
 }
 
 /***/ }),
-/* 149 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(1)(false);
-// imports
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(156)
+/* template */
+var __vue_template__ = __webpack_require__(158)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/workshop/PlayingTable.vue"
 
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-01e05aad", Component.options)
+  } else {
+    hotAPI.reload("data-v-01e05aad", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
 
-// module
-exports.push([module.i, "", ""]);
-
-// exports
+module.exports = Component.exports
 
 
 /***/ }),
-/* 150 */
+/* 154 */,
+/* 155 */,
+/* 156 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -69954,7 +69977,124 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 151 */
+/* 157 */,
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "playing-table" },
+    [
+      _c("router-view"),
+      _vm._v(" "),
+      _vm.isAuthor
+        ? _c(
+            "div",
+            {
+              staticClass: "setting-page",
+              on: { click: _vm.toggleTeamSettings }
+            },
+            [_c("img", { attrs: { src: "/icons/settings.svg", alt: "" } })]
+          )
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-01e05aad", module.exports)
+  }
+}
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(160)
+/* template */
+var __vue_template__ = __webpack_require__(161)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/workshop/Table.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7752259e", Component.options)
+  } else {
+    hotAPI.reload("data-v-7752259e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 160 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {},
+    data: function data() {
+        return {};
+    },
+    computed: {},
+    mounted: function mounted() {},
+
+    methods: {}
+});
+
+/***/ }),
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -69968,13 +70108,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "teams-container" }, [
-      _c("h2", [_vm._v("teams")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "adding-team" }, [
-        _c("img", { attrs: { src: "/icons/add.svg", alt: "" } }),
+    return _c("div", { staticClass: "playing-table" }, [
+      _c("div", { staticClass: "cards-container" }, [
+        _c("h2", [_vm._v("Cards")]),
         _vm._v(" "),
-        _c("p", [_vm._v("ADD TEAM")])
+        _c("h2", [_vm._v("Cards")]),
+        _vm._v(" "),
+        _c("h2", [_vm._v("Cards")]),
+        _vm._v(" "),
+        _c("h2", [_vm._v("Cards")])
       ])
     ])
   }
@@ -69984,7 +70126,145 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b93da29a", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-7752259e", module.exports)
+  }
+}
+
+/***/ }),
+/* 162 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(163)
+/* template */
+var __vue_template__ = __webpack_require__(164)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/workshop/TeamSettings.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bbe20fe6", Component.options)
+  } else {
+    hotAPI.reload("data-v-bbe20fe6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 163 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {},
+    data: function data() {
+        return {};
+    },
+    computed: {},
+    mounted: function mounted() {},
+
+    methods: {}
+});
+
+/***/ }),
+/* 164 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "playing-table" }, [
+      _c("div", { staticClass: "cards-container" }, [
+        _c("h2", [_vm._v("Cards")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "team-container" }, [
+        _c("h2", [_vm._v("Team data")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bbe20fe6", module.exports)
+  }
+}
+
+/***/ }),
+/* 165 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "workshop-content" },
+    [_c("team-manager", {}), _vm._v(" "), _c("playing-table", {})],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-543ca295", module.exports)
   }
 }
 

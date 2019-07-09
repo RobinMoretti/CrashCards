@@ -73,3 +73,24 @@
         min-height: 300px;
     }
 }
+
+
+//   ______
+//  /_  __/__  ____ _____ ___  _____
+//   / / / _ \/ __ `/ __ `__ \/ ___/
+//  / / /  __/ /_/ / / / / / (__  )
+// /_/  \___/\__,_/_/ /_/ /_/____/
+
+
+.teams-container{
+    .adding-team{
+    	display: flex;
+    	justify-content: center;
+    	align-items: center;
+        border: dotted 5px $grey-border;
+        color: $grey-border;	
+        img{
+        	opacity: 0.5;
+        }
+    }
+}

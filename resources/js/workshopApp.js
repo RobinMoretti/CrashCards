@@ -39,9 +39,13 @@ Vue.component('workshop-input', require('./components/workshop/WorkshopInput.vue
 Vue.component('team-manager', require('./components/workshop/TeamManager.vue'));
 Vue.component('date-picker-input', require('./components/workshop/DatePickerInput.vue'));
 Vue.component('axios-background-image', require('./components/workshop/AxiosBackgroundImage.vue'));
+Vue.component('playing-table', require('./components/workshop/PlayingTable.vue'));
 
 import WorkshopContent from './components/workshop/WorkshopContent.vue';
 import Settings from './components/workshop/Settings.vue';
+
+import Table from './components/workshop/Table.vue';
+import TeamSettings from './components/workshop/TeamSettings.vue';
  
 Vue.use(VModal)
 
@@ -67,7 +71,18 @@ Vue.mixin({
     	autoInputFailed: function(target){
             target.classList.remove('saving');
             target.classList.add('saved-failed');
-    	}
+    	},
+        toggleTeamSettings: function(){
+            // router.push({ name: 'team-settings'})
+            if(this.isAuthor){
+                if(this.$route.name == 'table'){
+                    router.push({ name: 'team-settings'})
+                }
+                else{
+                    router.push({ name: 'table'})
+                }
+            }
+        },
     }
 })
 
@@ -82,15 +97,28 @@ import WorkshopStore from './store/workshop/Workshop.js';
 // /_/ |_|\____/\__,_/\__/\___/____/
 
 const routes = [
-  { path: '/', component: WorkshopContent, name: 'home' },
-  { path: '/Settings', component: Settings, name: 'settings' },
-  { path: '*', redirect: '/' }
+  { path: '/', component: WorkshopContent, name: 'home',
+        children: [
+            {
+              path: '',
+              component: Table,
+              name: 'table'
+            },
+            {
+              path: 'team-settings',
+              component: TeamSettings,
+              name: 'team-settings'
+            }
+        ]
+    },
+    { path: '/settings', component: Settings, name: 'settings' },
+    // { path: '*', redirect: '/' }
 ]
 
 const router = new VueRouter({
     base: '/workshops/' + document.getElementById('workshop-id').textContent, 
     routes: routes, // short for `routes: routes`,
-    mode: 'history',
+    // mode: 'history',
 })
 
 const app = new Vue({
@@ -102,15 +130,13 @@ const app = new Vue({
     	},
         toggleSettings: function(){
             if(this.isAuthor){
-                if(this.$route.name == 'home'){
+                if(this.$route.name != 'settings'){
                     router.push({ name: 'settings'})
                 }
                 else{
-                    router.go(-1);
+                    router.push({ name: 'table'})
                 }
             }
-            // router.push({ name: 'user', params: { userId: 123 }})
-
         },
     },
     store: WorkshopStore,

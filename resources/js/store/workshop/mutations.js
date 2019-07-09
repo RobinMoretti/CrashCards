@@ -17,6 +17,9 @@ export default {
 	setAuthorRights (state, data) {
 		state.isAuthorOfWorkshop = data;
 	},
+	setTeams (state, data) {
+		state.teams = data;
+	},
 }
 
 // function setWorkshop (state, data) {

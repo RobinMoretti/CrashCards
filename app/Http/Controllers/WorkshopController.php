@@ -24,7 +24,6 @@ class WorkshopController extends Controller
             }else{
                 return 'false';
             }
-
         }else{
                 return 'false';
         }
@@ -35,7 +34,6 @@ class WorkshopController extends Controller
     {
         if ($request->ajax()) {
             $user = Auth::user();
-
 
             $workshop->load('author');
             $workshop->load('deck');
@@ -54,7 +52,9 @@ class WorkshopController extends Controller
                 }
             }
 
-            $data = collect([$workshop, $availableDecks, $connectedUser, $userIsAuthor ]);
+            $teams = $workshop->teams;
+
+            $data = collect([$workshop, $availableDecks, $connectedUser, $userIsAuthor, $teams ]);
             // dd($data);
             return $data;
         }
