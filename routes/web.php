@@ -30,6 +30,7 @@ Route::post('/get-user', 'HomeController@getUser')->name('get-user');
 Route::get('/join/{joinCode?}', 'WorkshopController@tryJoinWorkshop')->name('workshop-try-join');
 Route::get('/join/{joinCode?}/joinning', 'WorkshopController@joinWorkshop')->name('workshop-join');
 Route::get('/workshops/{workshop}', 'WorkshopController@indexWorkshop')->name('workshop-entry');
+Route::post('/workshops/{workshop}/user-is-author', 'WorkshopController@userIsAuthor')->name('workshop-user-is-author');
 
 
 

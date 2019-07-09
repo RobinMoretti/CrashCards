@@ -38,8 +38,10 @@ export default new Vuex.Store({
 			"username": null,
 			"author": false,
 		},
+		isAuthorOfWorkshop: false,
 		availableDecks: [],
-		baseUrl: document.getElementById("site-base-url").textContent
+		baseUrl: document.getElementById("site-base-url").textContent,
+		workshopBaseUrl: document.getElementById("workshop-base-url").textContent
 	},
 	mutations,
 	getters,

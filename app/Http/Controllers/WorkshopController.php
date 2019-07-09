@@ -36,14 +36,9 @@ class WorkshopController extends Controller
         if ($request->ajax()) {
             $user = Auth::user();
 
-            if($workshop->author->id == $user->id){
-                $workshop->load('author');
-                $workshop->load('deck');
-                return $workshop->toJson();
-            }else{
-                return 'false';
-            }
-
+            $workshop->load('author');
+            $workshop->load('deck');
+            return $workshop->toJson();
         }
     }
 
@@ -87,11 +82,10 @@ class WorkshopController extends Controller
             //if user connected
 
             $user = Auth::user();
+            $decks = Deck::all();
 
             if($workshop->author->id == $user->id){ 
                 // is author of workshop
-                $workshop->load('author');
-                $decks = Deck::all();
                 return view('workshop-entry', compact('workshop', 'decks'));
             }else{ 
                 $userIsParticipant = $workshop->participants->contains($user->id);
@@ -221,6 +215,21 @@ class WorkshopController extends Controller
         else{
             abort(404);
         }
+    }
+
+    public function userIsAuthor(Request $request, Workshop $workshop)
+    {
+        if ($request->ajax()) {
+            if(Auth::check()){
+                if(Auth::user()->id == $workshop->author->id){
+                    return 'true';
+                }
+
+            }
+        }
+
+        return 'false';
+
     }
 
 }

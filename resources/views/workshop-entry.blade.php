@@ -14,7 +14,7 @@
             </workshop-input>
         </div>
 
-        <div class="setting-page" v-on:click="toggleSettings">
+        <div class="setting-page" v-on:click="toggleSettings" v-if="isAuthor">
             <img src="/icons/settings.svg" alt="">
         </div>
     </div>  
@@ -30,10 +30,7 @@
     {{-- url setting !!! dont touch, only for vuejs router --}}
    <p id="workshop-id">{{ $workshop->id }}</p>
    <p id="site-base-url">{{ URL::to('/') }}</p>
-
-   <script>
-       window.workshopBaseUrl = "{{ route('workshop-entry', compact('workshop')) }}";
-   </script>
+   <p id="workshop-base-url">{{ route('workshop-entry', compact('workshop')) }}</p>
 
 @endsection
 

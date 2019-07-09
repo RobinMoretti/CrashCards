@@ -10,3 +10,9 @@ export const baseUrl = (state, getters) => {
 export const user = (state, getters) => {
   return state.user
 }
+export const isAuthorOfWorkshop = (state, getters) => {
+  return state.isAuthorOfWorkshop
+}
+export const workshopBaseUrl = (state, getters) => {
+  return state.workshopBaseUrl
+}

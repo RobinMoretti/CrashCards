@@ -9,7 +9,7 @@
                {{ defaultContent }} 
             </component>
 
-            <img src="/icons/edit.svg" alt="">
+            <img src="/icons/edit.svg" alt="" v-if="isAuthor">
         </div>
 
         <div class="edit" v-if="editMode && editable">
@@ -82,7 +82,7 @@
             },
             defaultContent:{
                 type: String,
-            }
+            },
         },
         data: function () {
             return {
@@ -91,11 +91,18 @@
                 inputCheckboxContent: this.content,
             }
         },
+        computed: {
+            isAuthor () {
+                return this.$store.getters.isAuthorOfWorkshop
+            }
+        },
         methods: {
             toggleEditMode: function(){
-                this.editMode = !this.editMode;
-                if(this.inputTag != "checkbox"){
-                    this.inputContent = this.content;
+                if(this.isAuthor){
+                    this.editMode = !this.editMode;
+                    if(this.inputTag != "checkbox"){
+                        this.inputContent = this.content;
+                    }
                 }
             },
             update: function(){

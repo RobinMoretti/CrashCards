@@ -14,6 +14,9 @@ export default {
 	setUser (state, data) {
 		state.user = data;
 	},
+	setAuthorRights (state, data) {
+		state.isAuthorOfWorkshop = data;
+	},
 }
 
 // function setWorkshop (state, data) {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="img-container" :style="'background: url(' + workshop.image_header + ') no-repeat center center'">
-            <img src="/icons/edit.svg" alt="" class="edit-button" v-on:click="openDialog">
+            <img src="/icons/edit.svg" alt="" class="edit-button" v-on:click="openDialog" v-if="isAuthor">
 
             <div class="invisible">
                 <input type="file" size="1048576" v-on:change="updateWorkshop" ref="fileInput">
@@ -17,6 +17,9 @@
         props:{
         },
         computed: {
+            isAuthor () {
+                return this.$store.getters.isAuthorOfWorkshop
+            },
             workshop () {
                 return this.$store.getters.workshop
             }
@@ -30,7 +33,7 @@
                 this.$refs.fileInput.click()
             },
             updateWorkshop: function(event){
-                if(event){
+                if(event && this.isAuthor){
                     let formData = new FormData();
 
                     formData.append('file', event.target.files[0]);

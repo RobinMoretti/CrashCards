@@ -55184,7 +55184,8 @@ var routes = [{ path: '/', component: __WEBPACK_IMPORTED_MODULE_6__components_wo
 
 var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
     base: '/workshops/' + document.getElementById('workshop-id').textContent,
-    routes: routes // short for `routes: routes`
+    routes: routes, // short for `routes: routes`,
+    mode: 'history'
 });
 
 var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
@@ -55195,10 +55196,12 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
             document.getElementsByClassName("mobile-nav")[0].classList.toggle('invisible');
         },
         toggleSettings: function toggleSettings() {
-            if (this.$route.name == 'home') {
-                router.push({ name: 'settings' });
-            } else {
-                router.go(-1);
+            if (this.isAuthor) {
+                if (this.$route.name == 'home') {
+                    router.push({ name: 'settings' });
+                } else {
+                    router.go(-1);
+                }
             }
             // router.push({ name: 'user', params: { userId: 123 }})
         }
@@ -55206,6 +55209,11 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     store: __WEBPACK_IMPORTED_MODULE_8__store_workshop_Workshop_js__["a" /* default */],
     created: function created() {
         this.$store.dispatch('initWorkshop');
+    },
+    computed: {
+        isAuthor: function isAuthor() {
+            return this.$store.getters.isAuthorOfWorkshop;
+        }
     }
 });
 
@@ -63980,11 +63988,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             inputCheckboxContent: this.content
         };
     },
+    computed: {
+        isAuthor: function isAuthor() {
+            return this.$store.getters.isAuthorOfWorkshop;
+        }
+    },
     methods: {
         toggleEditMode: function toggleEditMode() {
-            this.editMode = !this.editMode;
-            if (this.inputTag != "checkbox") {
-                this.inputContent = this.content;
+            if (this.isAuthor) {
+                this.editMode = !this.editMode;
+                if (this.inputTag != "checkbox") {
+                    this.inputContent = this.content;
+                }
             }
         },
         update: function update() {
@@ -64052,7 +64067,9 @@ var render = function() {
                 ])
               : _vm._e(),
             _vm._v(" "),
-            _c("img", { attrs: { src: "/icons/edit.svg", alt: "" } })
+            _vm.isAuthor
+              ? _c("img", { attrs: { src: "/icons/edit.svg", alt: "" } })
+              : _vm._e()
           ],
           1
         )
@@ -67177,6 +67194,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     props: {},
     computed: {
+        isAuthor: function isAuthor() {
+            return this.$store.getters.isAuthorOfWorkshop;
+        },
         workshop: function workshop() {
             return this.$store.getters.workshop;
         }
@@ -67191,7 +67211,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         updateWorkshop: function updateWorkshop(event) {
             var _this = this;
 
-            if (event) {
+            if (event && this.isAuthor) {
                 var formData = new FormData();
 
                 formData.append('file', event.target.files[0]);
@@ -67231,11 +67251,13 @@ var render = function() {
           ") no-repeat center center"
       },
       [
-        _c("img", {
-          staticClass: "edit-button",
-          attrs: { src: "/icons/edit.svg", alt: "" },
-          on: { click: _vm.openDialog }
-        }),
+        _vm.isAuthor
+          ? _c("img", {
+              staticClass: "edit-button",
+              attrs: { src: "/icons/edit.svg", alt: "" },
+              on: { click: _vm.openDialog }
+            })
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "invisible" }, [
           _c("input", {
@@ -67738,8 +67760,10 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_0_vuex
 			"username": null,
 			"author": false
 		},
+		isAuthorOfWorkshop: false,
 		availableDecks: [],
-		baseUrl: document.getElementById("site-base-url").textContent
+		baseUrl: document.getElementById("site-base-url").textContent,
+		workshopBaseUrl: document.getElementById("workshop-base-url").textContent
 	},
 	mutations: __WEBPACK_IMPORTED_MODULE_2__mutations__["a" /* default */],
 	getters: __WEBPACK_IMPORTED_MODULE_4__getters__,
@@ -68792,6 +68816,9 @@ var index_esm = {
 	},
 	setUser: function setUser(state, data) {
 		state.user = data;
+	},
+	setAuthorRights: function setAuthorRights(state, data) {
+		state.isAuthorOfWorkshop = data;
 	}
 });
 
@@ -68825,10 +68852,10 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             case 0:
               data = void 0;
 
-              // get initial workshop data
+              console.log('initial workshop');
 
-              _context.next = 3;
-              return axios.post(window.workshopBaseUrl + "/get", {
+              _context.next = 4;
+              return axios.post(state.workshopBaseUrl + "/get", {
                 _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
                 headers: { 'content-type': 'multipart/form-data' }
               }).then(function (response) {
@@ -68839,9 +68866,9 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 console.log(e);
               });
 
-            case 3:
-              _context.next = 5;
-              return axios.post(window.workshopBaseUrl + "/available-decks", {
+            case 4:
+              _context.next = 6;
+              return axios.post(state.workshopBaseUrl + "/available-decks", {
                 _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
                 headers: { 'content-type': 'multipart/form-data' }
               }).then(function (response) {
@@ -68852,8 +68879,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 console.log(e);
               });
 
-            case 5:
-              _context.next = 7;
+            case 6:
+              _context.next = 8;
               return axios.post(state.baseUrl + "/get-user", {
                 _token: document.querySelector('meta[name=csrf-token]').getAttribute('content')
               }).then(function (response) {
@@ -68863,7 +68890,19 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 console.log(e);
               });
 
-            case 7:
+            case 8:
+              _context.next = 10;
+              return axios.post(state.workshopBaseUrl + "/user-is-author", {
+                _token: document.querySelector('meta[name=csrf-token]').getAttribute('content')
+              }).then(function (response) {
+                data = response.data;
+                console.log("data = " + data);
+                commit("setAuthorRights", Boolean(data));
+              }).catch(function (e) {
+                console.log(e);
+              });
+
+            case 10:
             case 'end':
               return _context.stop();
           }
@@ -68891,7 +68930,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
               workshop[payload["property"]] = payload["content"];
 
               _context2.next = 4;
-              return axios.post(window.workshopBaseUrl + "/update", {
+              return axios.post(state.workshopBaseUrl + "/update", {
                 _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
                 _data: workshop
               }).then(function (response) {
@@ -68934,7 +68973,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
             case 0:
               workshop = Object.assign({}, state.workshop);
               _context3.next = 3;
-              return axios.post(window.workshopBaseUrl + "/update/image", payload["formData"], {
+              return axios.post(state.workshopBaseUrl + "/update/image", payload["formData"], {
                 _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
                 headers: { 'content-type': 'multipart/form-data' }
               }).then(function (response) {
@@ -68974,7 +69013,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return axios.post(window.workshopBaseUrl + "/set/deck", {
+              return axios.post(state.workshopBaseUrl + "/set/deck", {
                 _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
                 _data: payload["deck"].id
               }).then(function (response) {
@@ -69815,6 +69854,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "availableDecks", function() { return availableDecks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "baseUrl", function() { return baseUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "user", function() { return user; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAuthorOfWorkshop", function() { return isAuthorOfWorkshop; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workshopBaseUrl", function() { return workshopBaseUrl; });
 var workshop = function workshop(state, getters) {
   return state.workshop;
 };
@@ -69826,6 +69867,12 @@ var baseUrl = function baseUrl(state, getters) {
 };
 var user = function user(state, getters) {
   return state.user;
+};
+var isAuthorOfWorkshop = function isAuthorOfWorkshop(state, getters) {
+  return state.isAuthorOfWorkshop;
+};
+var workshopBaseUrl = function workshopBaseUrl(state, getters) {
+  return state.workshopBaseUrl;
 };
 
 /***/ })

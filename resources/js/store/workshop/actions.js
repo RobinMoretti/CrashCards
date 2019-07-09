@@ -4,9 +4,9 @@ import EventBus from '../../event-bus';
 export default {
 	async initWorkshop ({ commit, state }, payload) {
     let data;
+    console.log('initial workshop')
 
-    // get initial workshop data
-    await axios.post(window.workshopBaseUrl + "/get" , {
+    await axios.post( state.workshopBaseUrl + "/get" , {
       _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
       headers: { 'content-type': 'multipart/form-data' } 
     })
@@ -20,7 +20,7 @@ export default {
     }) 
 
     //get available Decks
-    await axios.post(window.workshopBaseUrl + "/available-decks" , {
+    await axios.post(state.workshopBaseUrl + "/available-decks" , {
       _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
       headers: { 'content-type': 'multipart/form-data' } 
     })
@@ -44,12 +44,26 @@ export default {
     .catch(e => {
       console.log(e)
     })
+
+    //get rights
+    await axios.post( state.workshopBaseUrl + "/user-is-author" , {
+      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+    })
+    .then(response => {
+        data = response.data;
+        console.log("data = " + data);
+        commit("setAuthorRights", Boolean(data));
+    })
+    .catch(e => {
+      console.log(e)
+    })
 	},
   async setWorkshopProperty ({ commit, state }, payload) {
+
     var workshop =Object.assign({},  state.workshop);
     workshop[payload["property"]] = payload["content"];
 
-    await axios.post(window.workshopBaseUrl + "/update" , {
+    await axios.post(state.workshopBaseUrl + "/update" , {
       _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
       _data: workshop,
     })
@@ -74,7 +88,7 @@ export default {
   async setWorkshopImage ({ commit, state }, payload) {
     var workshop =Object.assign({},  state.workshop);
 
-    await axios.post(window.workshopBaseUrl + "/update/image", payload["formData"], {
+    await axios.post(state.workshopBaseUrl + "/update/image", payload["formData"], {
       _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
       headers: { 'content-type': 'multipart/form-data' } 
     })
@@ -94,7 +108,7 @@ export default {
     })
   },
   async setWorkshopDeck ({ commit, state }, payload) {
-    await axios.post(window.workshopBaseUrl + "/set/deck", {
+    await axios.post(state.workshopBaseUrl + "/set/deck", {
       _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
       _data: payload["deck"].id
     })

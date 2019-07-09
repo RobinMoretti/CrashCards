@@ -2,7 +2,6 @@ require('./bootstrap'); // this is not the boostrap plugin
 
 import 'es6-promise/auto'
 
-
 import Vue from 'vue';
 import VModal from 'vue-js-modal'
 
@@ -81,7 +80,8 @@ const routes = [
 
 const router = new VueRouter({
     base: '/workshops/' + document.getElementById('workshop-id').textContent, 
-    routes: routes // short for `routes: routes`
+    routes: routes, // short for `routes: routes`,
+    mode: 'history',
 })
 
 const app = new Vue({
@@ -92,11 +92,13 @@ const app = new Vue({
     		document.getElementsByClassName("mobile-nav")[0].classList.toggle('invisible');
     	},
         toggleSettings: function(){
-            if(this.$route.name == 'home'){
-                router.push({ name: 'settings'})
-            }
-            else{
-                router.go(-1);
+            if(this.isAuthor){
+                if(this.$route.name == 'home'){
+                    router.push({ name: 'settings'})
+                }
+                else{
+                    router.go(-1);
+                }
             }
             // router.push({ name: 'user', params: { userId: 123 }})
 
@@ -105,5 +107,10 @@ const app = new Vue({
     store: WorkshopStore,
     created: function(){
         this.$store.dispatch('initWorkshop');
+    },
+    computed:{
+        isAuthor () {
+            return this.$store.getters.isAuthorOfWorkshop
+        },
     }
 });
