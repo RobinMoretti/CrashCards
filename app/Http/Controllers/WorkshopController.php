@@ -36,9 +36,27 @@ class WorkshopController extends Controller
         if ($request->ajax()) {
             $user = Auth::user();
 
+
             $workshop->load('author');
             $workshop->load('deck');
-            return $workshop->toJson();
+
+            // $data->workshop = $workshop;
+
+            $availableDecks = Deck::where('user_id', Auth::user()->id)->get();
+            // $data->availableDecks = $availableDecks;
+
+            $connectedUser = $user;
+            $userIsAuthor = false;
+
+            if(Auth::check()){
+                if(Auth::user()->id == $workshop->author->id){
+                    $userIsAuthor = true;
+                }
+            }
+
+            $data = collect([$workshop, $availableDecks, $connectedUser, $userIsAuthor ]);
+            // dd($data);
+            return $data;
         }
     }
 
@@ -161,14 +179,6 @@ class WorkshopController extends Controller
             return $path;
     }
 
-    public function getAvailableDecks(Request $request, Workshop $workshop)
-    {
-        if ($request->ajax()) {
-            $availableDecks = Deck::where('user_id', Auth::user()->id)->get();
-            return $availableDecks;
-        }
-    }
-
     public function setDeck(Request $request, Workshop $workshop)
     {
         if ($request->ajax()) {
@@ -215,21 +225,6 @@ class WorkshopController extends Controller
         else{
             abort(404);
         }
-    }
-
-    public function userIsAuthor(Request $request, Workshop $workshop)
-    {
-        if ($request->ajax()) {
-            if(Auth::check()){
-                if(Auth::user()->id == $workshop->author->id){
-                    return 'true';
-                }
-
-            }
-        }
-
-        return 'false';
-
     }
 
 }

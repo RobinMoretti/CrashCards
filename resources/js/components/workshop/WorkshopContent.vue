@@ -1,8 +1,6 @@
 <template>
     <div class="workshop-content">
-        <div class="teams-container">
-            <h2>teams</h2>
-        </div>
+        <team-manager class=""></team-manager>
         <div class="playing-table">
             <div class="cards-container">
                 <h2>Cards</h2>
@@ -23,5 +21,5 @@
 </script>
 
 <style scoped lang="scss">
-
+    
 </style>

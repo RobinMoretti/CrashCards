@@ -55146,6 +55146,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__webpack_require__(104));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('workshop-entry', __webpack_require__(50));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('axios-input', __webpack_require__(105));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('workshop-input', __webpack_require__(110));
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('team-manager', __webpack_require__(147));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('date-picker-input', __webpack_require__(115));
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('axios-background-image', __webpack_require__(121));
 
@@ -55155,6 +55156,14 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('axios-background-image', 
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_js_modal___default.a);
 
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.mixin({
+    computed: {
+        isAuthor: function isAuthor() {
+            return this.$store.getters.isAuthorOfWorkshop;
+        },
+        workshop: function workshop() {
+            return this.$store.getters.workshop;
+        }
+    },
     methods: {
         autoInputReset: function autoInputReset(target) {
             target.classList.remove('saved-success');
@@ -55209,11 +55218,6 @@ var app = new __WEBPACK_IMPORTED_MODULE_1_vue___default.a({
     store: __WEBPACK_IMPORTED_MODULE_8__store_workshop_Workshop_js__["a" /* default */],
     created: function created() {
         this.$store.dispatch('initWorkshop');
-    },
-    computed: {
-        isAuthor: function isAuthor() {
-            return this.$store.getters.isAuthorOfWorkshop;
-        }
     }
 });
 
@@ -63988,11 +63992,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             inputCheckboxContent: this.content
         };
     },
-    computed: {
-        isAuthor: function isAuthor() {
-            return this.$store.getters.isAuthorOfWorkshop;
-        }
-    },
     methods: {
         toggleEditMode: function toggleEditMode() {
             if (this.isAuthor) {
@@ -64353,11 +64352,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {},
 
-    computed: {
-        workshop: function workshop() {
-            return this.$store.getters.workshop;
-        }
-    },
     props: {},
     data: function data() {
         return {};
@@ -67193,14 +67187,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {},
 
     props: {},
-    computed: {
-        isAuthor: function isAuthor() {
-            return this.$store.getters.isAuthorOfWorkshop;
-        },
-        workshop: function workshop() {
-            return this.$store.getters.workshop;
-        }
-    },
     data: function data() {
         return {};
     },
@@ -67391,8 +67377,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -67408,26 +67392,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    { staticClass: "workshop-content" },
+    [_c("team-manager", {}), _vm._v(" "), _vm._m(0)],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "workshop-content" }, [
-      _c("div", { staticClass: "teams-container" }, [
-        _c("h2", [_vm._v("teams")])
+    return _c("div", { staticClass: "playing-table" }, [
+      _c("div", { staticClass: "cards-container" }, [
+        _c("h2", [_vm._v("Cards")])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "playing-table" }, [
-        _c("div", { staticClass: "cards-container" }, [
-          _c("h2", [_vm._v("Cards")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "team-container" }, [
-          _c("h2", [_vm._v("Team data")])
-        ])
+      _c("div", { staticClass: "team-container" }, [
+        _c("h2", [_vm._v("Team data")])
       ])
     ])
   }
@@ -67594,9 +67577,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         baseUrl: function baseUrl() {
             return this.$store.getters.baseUrl;
         },
-        workshop: function workshop() {
-            return this.$store.getters.workshop;
-        },
         decks: function decks() {
             return this.$store.getters.availableDecks;
         }
@@ -67762,6 +67742,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_0_vuex
 		},
 		isAuthorOfWorkshop: false,
 		availableDecks: [],
+		teams: [],
 		baseUrl: document.getElementById("site-base-url").textContent,
 		workshopBaseUrl: document.getElementById("workshop-base-url").textContent
 	},
@@ -68860,49 +68841,21 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                 headers: { 'content-type': 'multipart/form-data' }
               }).then(function (response) {
                 data = response.data;
-                commit("setWorkshop", data);
+                console.log(data);
+                commit("setWorkshop", data[0]);
                 __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* default */].$emit('workshop-initied');
+
+                commit("setAvailableDecks", data[1]);
+                console.log('setAvailableDecks!');
+
+                commit("setUser", data[2]);
+
+                commit("setAuthorRights", Boolean(data[3]));
               }).catch(function (e) {
                 console.log(e);
               });
 
             case 4:
-              _context.next = 6;
-              return axios.post(state.workshopBaseUrl + "/available-decks", {
-                _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-                headers: { 'content-type': 'multipart/form-data' }
-              }).then(function (response) {
-                data = response.data;
-                commit("setAvailableDecks", data);
-                console.log('setAvailableDecks!');
-              }).catch(function (e) {
-                console.log(e);
-              });
-
-            case 6:
-              _context.next = 8;
-              return axios.post(state.baseUrl + "/get-user", {
-                _token: document.querySelector('meta[name=csrf-token]').getAttribute('content')
-              }).then(function (response) {
-                data = response.data;
-                commit("setUser", data);
-              }).catch(function (e) {
-                console.log(e);
-              });
-
-            case 8:
-              _context.next = 10;
-              return axios.post(state.workshopBaseUrl + "/user-is-author", {
-                _token: document.querySelector('meta[name=csrf-token]').getAttribute('content')
-              }).then(function (response) {
-                data = response.data;
-                console.log("data = " + data);
-                commit("setAuthorRights", Boolean(data));
-              }).catch(function (e) {
-                console.log(e);
-              });
-
-            case 10:
             case 'end':
               return _context.stop();
           }
@@ -69856,6 +69809,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "user", function() { return user; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isAuthorOfWorkshop", function() { return isAuthorOfWorkshop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workshopBaseUrl", function() { return workshopBaseUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "teams", function() { return teams; });
 var workshop = function workshop(state, getters) {
   return state.workshop;
 };
@@ -69874,6 +69828,165 @@ var isAuthorOfWorkshop = function isAuthorOfWorkshop(state, getters) {
 var workshopBaseUrl = function workshopBaseUrl(state, getters) {
   return state.workshopBaseUrl;
 };
+var teams = function teams(state, getters) {
+  return state.teams;
+};
+
+/***/ }),
+/* 145 */,
+/* 146 */,
+/* 147 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(148)
+}
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(150)
+/* template */
+var __vue_template__ = __webpack_require__(151)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-b93da29a"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/workshop/TeamManager.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b93da29a", Component.options)
+  } else {
+    hotAPI.reload("data-v-b93da29a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 148 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(149);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("21ade2d6", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b93da29a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TeamManager.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b93da29a\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TeamManager.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 149 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/***/ }),
+/* 150 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {},
+    data: function data() {
+        return {};
+    },
+    computed: {},
+    mounted: function mounted() {},
+
+    methods: {}
+});
+
+/***/ }),
+/* 151 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "teams-container" }, [
+      _c("h2", [_vm._v("teams")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "adding-team" }, [
+        _c("img", { attrs: { src: "/icons/add.svg", alt: "" } }),
+        _vm._v(" "),
+        _c("p", [_vm._v("ADD TEAM")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b93da29a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

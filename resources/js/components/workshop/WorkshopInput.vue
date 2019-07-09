@@ -32,11 +32,6 @@
     export default {
         mounted() {
         },
-        computed: {
-            workshop () {
-                return this.$store.getters.workshop
-            }
-        },
         props:{
         },
         data: function () {

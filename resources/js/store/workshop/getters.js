@@ -16,3 +16,6 @@ export const isAuthorOfWorkshop = (state, getters) => {
 export const workshopBaseUrl = (state, getters) => {
   return state.workshopBaseUrl
 }
+export const teams = (state, getters) => {
+  return state.teams;
+}

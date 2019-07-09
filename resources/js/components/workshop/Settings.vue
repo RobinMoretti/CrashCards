@@ -51,9 +51,6 @@
             baseUrl () {
                 return this.$store.getters.baseUrl
             },
-            workshop () {
-                return this.$store.getters.workshop
-            },
             decks () {
                 return this.$store.getters.availableDecks;
             },

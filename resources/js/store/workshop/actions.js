@@ -12,51 +12,21 @@ export default {
     })
     .then(response => {
         data = response.data;
-        commit("setWorkshop", data);
+        console.log(data);
+        commit("setWorkshop", data[0]);
         EventBus.$emit('workshop-initied');
+
+        commit("setAvailableDecks", data[1]);
+        console.log('setAvailableDecks!')
+
+        commit("setUser", data[2]);
+
+        commit("setAuthorRights", Boolean(data[3]));
+
     })
     .catch(e => {
       console.log(e)
     }) 
-
-    //get available Decks
-    await axios.post(state.workshopBaseUrl + "/available-decks" , {
-      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-      headers: { 'content-type': 'multipart/form-data' } 
-    })
-    .then(response => {
-        data = response.data;
-        commit("setAvailableDecks", data);
-        console.log('setAvailableDecks!')
-    })
-    .catch(e => {
-      console.log(e)
-    })
-
-    //get User
-    await axios.post( state.baseUrl + "/get-user" , {
-      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-    })
-    .then(response => {
-        data = response.data;
-        commit("setUser", data);
-    })
-    .catch(e => {
-      console.log(e)
-    })
-
-    //get rights
-    await axios.post( state.workshopBaseUrl + "/user-is-author" , {
-      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-    })
-    .then(response => {
-        data = response.data;
-        console.log("data = " + data);
-        commit("setAuthorRights", Boolean(data));
-    })
-    .catch(e => {
-      console.log(e)
-    })
 	},
   async setWorkshopProperty ({ commit, state }, payload) {
 

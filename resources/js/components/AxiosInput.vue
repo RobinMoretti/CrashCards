@@ -91,11 +91,6 @@
                 inputCheckboxContent: this.content,
             }
         },
-        computed: {
-            isAuthor () {
-                return this.$store.getters.isAuthorOfWorkshop
-            }
-        },
         methods: {
             toggleEditMode: function(){
                 if(this.isAuthor){

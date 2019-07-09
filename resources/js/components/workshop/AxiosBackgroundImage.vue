@@ -16,14 +16,6 @@
         },
         props:{
         },
-        computed: {
-            isAuthor () {
-                return this.$store.getters.isAuthorOfWorkshop
-            },
-            workshop () {
-                return this.$store.getters.workshop
-            }
-        },
         data: function () {
             return {
             }

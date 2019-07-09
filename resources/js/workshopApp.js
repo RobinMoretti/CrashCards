@@ -36,6 +36,7 @@ Vue.use(require('vue-moment'));
 Vue.component('workshop-entry', require('./components/WorkshopEntry.vue'));
 Vue.component('axios-input', require('./components/AxiosInput.vue'));
 Vue.component('workshop-input', require('./components/workshop/WorkshopInput.vue'));
+Vue.component('team-manager', require('./components/workshop/TeamManager.vue'));
 Vue.component('date-picker-input', require('./components/workshop/DatePickerInput.vue'));
 Vue.component('axios-background-image', require('./components/workshop/AxiosBackgroundImage.vue'));
 
@@ -45,6 +46,14 @@ import Settings from './components/workshop/Settings.vue';
 Vue.use(VModal)
 
 Vue.mixin({
+    computed:{
+        isAuthor () {
+            return this.$store.getters.isAuthorOfWorkshop
+        },
+        workshop () {
+            return this.$store.getters.workshop
+        }
+    },
     methods: {
     	autoInputReset: function(target){
             target.classList.remove('saved-success');
@@ -107,10 +116,5 @@ const app = new Vue({
     store: WorkshopStore,
     created: function(){
         this.$store.dispatch('initWorkshop');
-    },
-    computed:{
-        isAuthor () {
-            return this.$store.getters.isAuthorOfWorkshop
-        },
     }
 });
