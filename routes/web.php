@@ -97,5 +97,15 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('/user', 'UserController@index')->name('user');
 	Route::post('/users/{user}/update', 'UserController@update')->name('update-user');
 
+	//   ______
+	//  /_  __/__  ____ _____ ___
+	//   / / / _ \/ __ `/ __ `__ \
+	//  / / /  __/ /_/ / / / / / /
+	// /_/  \___/\__,_/_/ /_/ /_/
+	
+	Route::post('/workshops/{workshop}/team/create', 'TeamController@createInWorkshop')->name('team-create');
+	Route::post('/workshops/{workshop}/team/{team}/read', 'TeamController@readInWorkshop')->name('team-read');
+	Route::post('/workshops/{workshop}/team/{team}/update', 'TeamController@updateInWorkshop')->name('team-update');
+	Route::post('/workshops/{workshop}/team/{team}/delete', 'TeamController@deleteInWorkshop')->name('team-delete');
 });
 

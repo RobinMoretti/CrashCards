@@ -20,4 +20,10 @@ class Team extends Model
 	{
 		return $this->hasOne(Hand::class);
 	}
+
+	public function leader()
+	{
+		return $this->belongsTo(User::class, 'leader_id');
+	}
+
 }

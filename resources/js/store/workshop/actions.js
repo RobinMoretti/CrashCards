@@ -12,12 +12,11 @@ export default {
     })
     .then(response => {
         data = response.data;
-        console.log(data);
+
         commit("setWorkshop", data[0]);
         EventBus.$emit('workshop-initied');
 
         commit("setAvailableDecks", data[1]);
-        console.log('setAvailableDecks!')
 
         commit("setUser", data[2]);
 
@@ -98,6 +97,32 @@ export default {
         reject()
       })
     })
+  },
+  async createTeam ({ commit, state }, payload) {
+    await axios.post(state.workshopBaseUrl + "/team/create", {
+      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+    })
+    .then(response => {
+        console.log(response.data)
+        var team = response.data;
+        return new Promise((resolve, reject) => {
+          commit("addNewTeam", team);
+          resolve()
+        })
+    })
+    .catch(e => {
+      console.log(e)
+      return new Promise((resolve, reject) => {
+        reject()
+      })
+    })
+  },
+  toggleSelectedTeam ({ commit, state }, team) {
+    if(state.selectedTeam == team){
+      commit("setSelectedTeam", {});
+    }else{
+      commit("setSelectedTeam", team);
+    }
   },
 }
 

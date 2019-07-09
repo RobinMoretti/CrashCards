@@ -19,3 +19,6 @@ export const workshopBaseUrl = (state, getters) => {
 export const teams = (state, getters) => {
   return state.teams;
 }
+export const selectedTeam = (state, getters) => {
+  return state.selectedTeam;
+}

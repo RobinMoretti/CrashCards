@@ -83,14 +83,42 @@
 
 
 .teams-container{
+
+    .team{
+    	margin-top: 1rem;
+    	margin-bottom: 1rem;
+    	display: flex;
+    	justify-content: center;
+    	align-items: center;
+        background-color: $grey-bg;
+        color: $grey-border;
+        width: 100%;
+        border: solid 5px white;
+    }
     .adding-team{
     	display: flex;
     	justify-content: center;
     	align-items: center;
         border: dotted 5px $grey-border;
-        color: $grey-border;	
+        color: $grey-border;
+        background-color: unset;	
         img{
         	opacity: 0.5;
         }
     }
+    .selected{
+        border: solid 5px $grey-border;
+    }
+}
+
+//   ______      __    __
+//  /_  __/___ _/ /_  / /__
+//   / / / __ `/ __ \/ / _ \
+//  / / / /_/ / /_/ / /  __/
+// /_/  \__,_/_.___/_/\___/
+
+.table-header{
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
 }

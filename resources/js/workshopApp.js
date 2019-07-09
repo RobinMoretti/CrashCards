@@ -56,6 +56,9 @@ Vue.mixin({
         },
         workshop () {
             return this.$store.getters.workshop
+        },
+        selectedTeam(){
+            return this.$store.getters.selectedTeam
         }
     },
     methods: {
@@ -74,7 +77,7 @@ Vue.mixin({
     	},
         toggleTeamSettings: function(){
             // router.push({ name: 'team-settings'})
-            if(this.isAuthor){
+            if(this.isAuthor && this.selectedTeam != null){
                 if(this.$route.name == 'table'){
                     router.push({ name: 'team-settings'})
                 }

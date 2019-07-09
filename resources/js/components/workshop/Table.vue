@@ -1,12 +1,7 @@
 <template>
     <div class="playing-table">
 
-        <div class="cards-container">
-            <h2>Cards</h2>
-            <h2>Cards</h2>
-            <h2>Cards</h2>
-            <h2>Cards</h2>
-        </div>
+        <h2>Playing Table</h2>
         
     </div>
 </template>

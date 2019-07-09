@@ -20,6 +20,12 @@ export default {
 	setTeams (state, data) {
 		state.teams = data;
 	},
+	addNewTeam (state, data) {
+		state.teams.push(data);
+	},
+	setSelectedTeam (state, data) {
+		state.selectedTeam = data;
+	},
 }
 
 // function setWorkshop (state, data) {

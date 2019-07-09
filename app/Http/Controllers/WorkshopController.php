@@ -226,5 +226,4 @@ class WorkshopController extends Controller
             abort(404);
         }
     }
-
 }
