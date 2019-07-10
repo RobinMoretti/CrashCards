@@ -3,10 +3,12 @@
         <h2>Setting</h2>
         <div class="settings-column">
             <h3>Réglage généraux:</h3>
+            
             <div>
                 <h3>Sharable link:</h3>
                 <p>{{ baseUrl }}/join/{{workshop.sharable_link}}</p>
             </div>
+
             <axios-input 
             tag="p"
             property="private"

@@ -54,8 +54,20 @@ class TeamController extends Controller
     public function updateInWorkshop(Request $request, Workshop $workshop, Team $team)
     {
     	if($request->ajax()){
+            if($workshop->author->id == Auth::user()->id || $team->players->contains(Auth::user())){
+                // Team::destroy($team->id);
+                $request->validate([
+                    '_data' => 'required',
+                    '_data.id' => 'required|numeric',
+                ]);
 
+                $team->fill($request->_data);
+                $team->save();
+                return 'true';
+            }
     	}
+
+        return 'false';
     }
 
     public function deleteInWorkshop(Request $request, Workshop $workshop, Team $team)
@@ -64,7 +76,10 @@ class TeamController extends Controller
     	if($request->ajax()){
     		if($workshop->author->id == Auth::user()->id){
     			Team::destroy($team->id);
+                return "true";
     		}
     	}
+
+        return response()->json(['error' => "Can't delete team"], 404);
     }
 }

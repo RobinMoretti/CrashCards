@@ -20,11 +20,19 @@ export default {
 	setTeams (state, data) {
 		state.teams = data;
 	},
+	setTeam (state, data) {
+		var teamIndex = state.teams.findIndex(item => item.id === data.id);
+		state.teams.splice(teamIndex, 1, data)
+	},
 	addNewTeam (state, data) {
 		state.teams.push(data);
 	},
 	setSelectedTeam (state, data) {
 		state.selectedTeam = data;
+	},
+	deleteSelectedTeam (state, data) {
+		var teamIndex = state.teams.findIndex(item => item.id === data.id);
+		state.teams.splice(teamIndex, 1);
 	},
 }
 

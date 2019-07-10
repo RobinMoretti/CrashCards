@@ -136,9 +136,12 @@ class WorkshopController extends Controller
 
             $user = Auth::user();
 
+            // dump($newWorkshop);
+
             if($workshop->author->id == $user->id){
                 unset($newWorkshop['author']);
                 unset($newWorkshop['deck']);
+                unset($newWorkshop['teams']);
                 $workshop->fill($newWorkshop);
                 $workshop->save();
 

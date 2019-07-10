@@ -1,12 +1,22 @@
 <template>
     <div class="playing-table">
         <div class="table-header">
-            <div>
-                <h2 v-if="selectedTeamExist">{{ selectedTeamName }}</h2>
-            </div>
+            <div class="" v-if="selectedTeam != null">
+                <div class="team-header">
+                    <!-- <h2 v-if="selectedTeamExist">{{ selectedTeamName }}</h2> -->
 
-            <div class="setting-page" v-on:click="toggleTeamSettings" v-if="isAuthor && selectedTeamExist">
-                <img src="/icons/settings.svg" alt="">
+                    <axios-input 
+                    tag="h2"
+                    property="name"
+                    :content="selectedTeamName"
+                    default-content="New Team"
+                    object-to-update="Team"
+                    ></axios-input> 
+
+                    <div class="setting-page" v-on:click="toggleTeamSettings">
+                        <img src="/icons/settings.svg" alt="">
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -32,13 +42,13 @@
                 return false;
             },
             selectedTeamName: function(){
-                if(this.selectedTeam.name != null){
-                    return this.selectedTeam['name'];
+                if(this.selectedTeam != null){
+                    return this.selectedTeam.name;
                 }
                 else{
-                    return "Nouvelle équipe"
+                    return ""
                 }
-            },
+            }
         },
         mounted() {
         },

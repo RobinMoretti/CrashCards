@@ -124,6 +124,61 @@ export default {
       commit("setSelectedTeam", team);
     }
   },
+  async setTeamProperty ({ commit, state }, payload) {
+
+    var team = Object.assign({},  state.selectedTeam);
+
+
+    team[payload["property"]] = payload["content"];
+
+    await axios.post(state.workshopBaseUrl + "/team/" + team.id + "/update", {
+      _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+      _data: team,
+    })
+    .then(response => {
+        // data = response.data;
+      return new Promise((resolve, reject) => {
+        console.log(team)
+
+        commit("setTeam", team);
+        commit("setSelectedTeam", team);
+        resolve()
+      })
+
+    })
+    .catch(e => {
+      console.log(e)
+
+      return new Promise((resolve, reject) => {
+        reject()
+      })
+
+    }) 
+  },
+  async deleteSelectedTeam ({ commit, state }, team) {
+    // ajouter si leader
+    if(state.user.id == state.workshop.author.id){
+
+      await axios.post(state.workshopBaseUrl + "/team/" + team.id +"/delete", {
+        _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+      })
+      .then(response => {
+          console.log(response.data)
+          if(response.data){
+            return new Promise((resolve, reject) => {
+              commit("deleteSelectedTeam", team);
+              resolve()
+            })
+          }
+      })
+      .catch(e => {
+        console.log(e)
+        return new Promise((resolve, reject) => {
+          reject()
+        })
+      })
+    }
+  },
 }
 
 	// async initWorkshop ({ commit }, payload) {

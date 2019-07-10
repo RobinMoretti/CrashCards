@@ -120,5 +120,14 @@
 .table-header{
 	display: flex;
 	justify-content: space-between;
-	flex-direction: row;
+	flex-direction: column;
+    align-items: stretch;
+
+    .team-header{
+
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+
+    }
 }

@@ -47,7 +47,7 @@ import Settings from './components/workshop/Settings.vue';
 import Table from './components/workshop/Table.vue';
 import TeamSettings from './components/workshop/TeamSettings.vue';
  
-Vue.use(VModal)
+Vue.use(VModal, { dynamic: true, injectModalsContainer: true })
 
 Vue.mixin({
     computed:{

@@ -83,6 +83,10 @@
             defaultContent:{
                 type: String,
             },
+            objectToUpdate:{
+                type: String,
+                default: "Workshop"
+            },
         },
         data: function () {
             return {
@@ -102,8 +106,6 @@
             },
             update: function(){
                 console.log('try to emited')
-                console.log("this.inputContent = " + this.inputContent);
-                console.log("this.inputContent = " + this.checkInputContent(this.inputContent));
 
                 if(this.checkInputContent(this.inputContent)){
                     console.log('emited');
@@ -113,15 +115,31 @@
                         "content": this.inputContent,
                     }
 
-                    this.$store.dispatch('setWorkshopProperty', payload).then(
-                        resolve => {
-                            console.log('success')
-                        }, 
-                        reject => {
-                            console.log('reject')
-                            this.flash('Something was wrong, try later.', 'error');
-                        }
-                    )
+                    if(this.objectToUpdate == "Workshop"){
+                        console.log('emited workshop');
+                        this.$store.dispatch('setWorkshopProperty', payload).then(
+                            resolve => {
+                                console.log('success')
+                            }, 
+                            reject => {
+                                console.log('reject')
+                                this.flash('Something was wrong, try later.', 'error');
+                            }
+                        )
+                    }else if (this.objectToUpdate == "Team") {
+                        
+                        console.log('emited team');
+                        this.$store.dispatch('setTeamProperty', payload).then(
+                            resolve => {
+                                console.log('success')
+                            }, 
+                            reject => {
+                                console.log('reject')
+                                this.flash('Something was wrong, try later.', 'error');
+                            }
+                        )
+                    }
+
 
                 }
                 

@@ -55128,7 +55128,7 @@ __WEBPACK_IMPORTED_MODULE_1_vue___default.a.component('playing-table', __webpack
 
 
 
-__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_js_modal___default.a);
+__WEBPACK_IMPORTED_MODULE_1_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_vue_js_modal___default.a, { dynamic: true, injectModalsContainer: true });
 
 __WEBPACK_IMPORTED_MODULE_1_vue___default.a.mixin({
     computed: {
@@ -63980,6 +63980,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         defaultContent: {
             type: String
+        },
+        objectToUpdate: {
+            type: String,
+            default: "Workshop"
         }
     },
     data: function data() {
@@ -64002,8 +64006,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             console.log('try to emited');
-            console.log("this.inputContent = " + this.inputContent);
-            console.log("this.inputContent = " + this.checkInputContent(this.inputContent));
 
             if (this.checkInputContent(this.inputContent)) {
                 console.log('emited');
@@ -64013,12 +64015,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     "content": this.inputContent
                 };
 
-                this.$store.dispatch('setWorkshopProperty', payload).then(function (resolve) {
-                    console.log('success');
-                }, function (reject) {
-                    console.log('reject');
-                    _this.flash('Something was wrong, try later.', 'error');
-                });
+                if (this.objectToUpdate == "Workshop") {
+                    console.log('emited workshop');
+                    this.$store.dispatch('setWorkshopProperty', payload).then(function (resolve) {
+                        console.log('success');
+                    }, function (reject) {
+                        console.log('reject');
+                        _this.flash('Something was wrong, try later.', 'error');
+                    });
+                } else if (this.objectToUpdate == "Team") {
+
+                    console.log('emited team');
+                    this.$store.dispatch('setTeamProperty', payload).then(function (resolve) {
+                        console.log('success');
+                    }, function (reject) {
+                        console.log('reject');
+                        _this.flash('Something was wrong, try later.', 'error');
+                    });
+                }
             }
 
             this.toggleEditMode();
@@ -67488,6 +67502,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {},
@@ -67504,10 +67528,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return false;
         },
         selectedTeamName: function selectedTeamName() {
-            if (this.selectedTeam.name != null) {
-                return this.selectedTeam['name'];
+            if (this.selectedTeam != null) {
+                return this.selectedTeam.name;
             } else {
-                return "Nouvelle équipe";
+                return "";
             }
         }
     },
@@ -67529,21 +67553,38 @@ var render = function() {
     { staticClass: "playing-table" },
     [
       _c("div", { staticClass: "table-header" }, [
-        _c("div", [
-          _vm.selectedTeamExist
-            ? _c("h2", [_vm._v(_vm._s(_vm.selectedTeamName))])
-            : _vm._e()
-        ]),
-        _vm._v(" "),
-        _vm.isAuthor && _vm.selectedTeamExist
-          ? _c(
-              "div",
-              {
-                staticClass: "setting-page",
-                on: { click: _vm.toggleTeamSettings }
-              },
-              [_c("img", { attrs: { src: "/icons/settings.svg", alt: "" } })]
-            )
+        _vm.selectedTeam != null
+          ? _c("div", {}, [
+              _c(
+                "div",
+                { staticClass: "team-header" },
+                [
+                  _c("axios-input", {
+                    attrs: {
+                      tag: "h2",
+                      property: "name",
+                      content: _vm.selectedTeamName,
+                      "default-content": "New Team",
+                      "object-to-update": "Team"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "setting-page",
+                      on: { click: _vm.toggleTeamSettings }
+                    },
+                    [
+                      _c("img", {
+                        attrs: { src: "/icons/settings.svg", alt: "" }
+                      })
+                    ]
+                  )
+                ],
+                1
+              )
+            ])
           : _vm._e()
       ]),
       _vm._v(" "),
@@ -67755,6 +67796,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_bus__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_select__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_select___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_select__);
+//
+//
 //
 //
 //
@@ -68075,12 +68118,19 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modals_Validation_vue__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modals_Validation_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__modals_Validation_vue__);
 //
 //
 //
 //
 //
 //
+//
+//
+//
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {},
@@ -68090,7 +68140,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {},
     mounted: function mounted() {},
 
-    methods: {}
+    methods: {
+        deleteSelectedTeam: function deleteSelectedTeam() {
+            this.$modal.show(__WEBPACK_IMPORTED_MODULE_0__modals_Validation_vue___default.a, {
+                text: 'This text is passed as a property',
+                data: this.selectedTeam,
+                storeDispatchFunction: "deleteSelectedTeam"
+            }, {
+                draggable: true
+            });
+        }
+    }
 });
 
 /***/ }),
@@ -68101,18 +68161,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "playing-table" }, [
-      _c("h3", [_vm._v("TeamSettings")])
+  return _c("div", { staticClass: "playing-table" }, [
+    _c("h3", [_vm._v("TeamSettings")]),
+    _vm._v(" "),
+    _c("button", { on: { click: _vm.deleteSelectedTeam } }, [
+      _vm._v("Delete this team")
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -69239,11 +69296,23 @@ var index_esm = {
 	setTeams: function setTeams(state, data) {
 		state.teams = data;
 	},
+	setTeam: function setTeam(state, data) {
+		var teamIndex = state.teams.findIndex(function (item) {
+			return item.id === data.id;
+		});
+		state.teams.splice(teamIndex, 1, data);
+	},
 	addNewTeam: function addNewTeam(state, data) {
 		state.teams.push(data);
 	},
 	setSelectedTeam: function setSelectedTeam(state, data) {
 		state.selectedTeam = data;
+	},
+	deleteSelectedTeam: function deleteSelectedTeam(state, data) {
+		var teamIndex = state.teams.findIndex(function (item) {
+			return item.id === data.id;
+		});
+		state.teams.splice(teamIndex, 1);
 	}
 });
 
@@ -69490,7 +69559,101 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     } else {
       commit("setSelectedTeam", team);
     }
-  }
+  },
+  setTeamProperty: function () {
+    var _ref13 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee6(_ref12, payload) {
+      var commit = _ref12.commit,
+          state = _ref12.state;
+      var team;
+      return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              team = Object.assign({}, state.selectedTeam);
+
+
+              team[payload["property"]] = payload["content"];
+
+              _context6.next = 4;
+              return axios.post(state.workshopBaseUrl + "/team/" + team.id + "/update", {
+                _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+                _data: team
+              }).then(function (response) {
+                // data = response.data;
+                return new Promise(function (resolve, reject) {
+                  console.log(team);
+
+                  commit("setTeam", team);
+                  commit("setSelectedTeam", team);
+                  resolve();
+                });
+              }).catch(function (e) {
+                console.log(e);
+
+                return new Promise(function (resolve, reject) {
+                  reject();
+                });
+              });
+
+            case 4:
+            case 'end':
+              return _context6.stop();
+          }
+        }
+      }, _callee6, this);
+    }));
+
+    function setTeamProperty(_x11, _x12) {
+      return _ref13.apply(this, arguments);
+    }
+
+    return setTeamProperty;
+  }(),
+  deleteSelectedTeam: function () {
+    var _ref15 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee7(_ref14, team) {
+      var commit = _ref14.commit,
+          state = _ref14.state;
+      return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              if (!(state.user.id == state.workshop.author.id)) {
+                _context7.next = 3;
+                break;
+              }
+
+              _context7.next = 3;
+              return axios.post(state.workshopBaseUrl + "/team/" + team.id + "/delete", {
+                _token: document.querySelector('meta[name=csrf-token]').getAttribute('content')
+              }).then(function (response) {
+                console.log(response.data);
+                if (response.data) {
+                  return new Promise(function (resolve, reject) {
+                    commit("deleteSelectedTeam", team);
+                    resolve();
+                  });
+                }
+              }).catch(function (e) {
+                console.log(e);
+                return new Promise(function (resolve, reject) {
+                  reject();
+                });
+              });
+
+            case 3:
+            case 'end':
+              return _context7.stop();
+          }
+        }
+      }, _callee7, this);
+    }));
+
+    function deleteSelectedTeam(_x13, _x14) {
+      return _ref15.apply(this, arguments);
+    }
+
+    return deleteSelectedTeam;
+  }()
 });
 
 // async initWorkshop ({ commit }, payload) {
@@ -70329,6 +70492,178 @@ var teams = function teams(state, getters) {
 var selectedTeam = function selectedTeam(state, getters) {
   return state.selectedTeam;
 };
+
+/***/ }),
+/* 155 */,
+/* 156 */,
+/* 157 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(158)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(160)
+/* template */
+var __vue_template__ = __webpack_require__(161)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-b84e49b2"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/modals/Validation.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b84e49b2", Component.options)
+  } else {
+    hotAPI.reload("data-v-b84e49b2", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(159);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(3)("542202b4", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b84e49b2\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Validation.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b84e49b2\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Validation.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 159 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(2)(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/***/ }),
+/* 160 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        text: {
+            type: String
+        },
+        data: {},
+        storeDispatchFunction: {
+            type: String
+        }
+    },
+    data: function data() {
+        return {};
+    },
+    computed: {},
+    mounted: function mounted() {},
+
+    methods: {
+        validate: function validate() {
+            if (this.storeDispatchFunction != null && this.data != null) {
+                this.$store.dispatch(this.storeDispatchFunction, this.data);
+            } else if (this.storeDispatchFunction != null) {
+                this.$store.dispatch(this.storeDispatchFunction);
+            }
+            this.$emit('close');
+        }
+    }
+});
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("p", [_vm._v(_vm._s(_vm.text))]),
+    _vm._v(" "),
+    _c("button", { on: { click: _vm.validate } }, [_vm._v("Yes")]),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        on: {
+          click: function($event) {
+            _vm.$emit("close")
+          }
+        }
+      },
+      [_vm._v("No")]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b84e49b2", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
