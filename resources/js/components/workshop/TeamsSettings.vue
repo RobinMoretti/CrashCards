@@ -1,8 +1,15 @@
 <template>
-    <div class="playing-table">
-        <h3>Team Settings</h3>
+    <div class="teams-settings">
+        <div class="table-header">
+            <h2>Teams Settings</h2>
+            <div class="setting-page" v-on:click="toggleTableSettings">
+                <img src="/icons/settings.svg" alt="">
+            </div>
+        </div>
 
-        <button v-on:click="deleteSelectedTeam">Delete this team</button>
+        <div class="participants"  v-for="particpant in participants">
+            <p>{{particpant.id}}: {{particpant.username}}</p>
+        </div>
 
     </div>
 </template>
@@ -18,12 +25,11 @@
             }
         },
         computed:{
+            participants(){
+                return this.$store.getters.participants;
+            }
         },
         mounted() {
-            //correct reload router behavior
-            if(this.selectedTeam == null && this.$route.name == 'team-settings'){
-                this.$router.push({ name: 'table'})
-            }
         },
         methods:{
             deleteSelectedTeam: function(){

@@ -34,6 +34,9 @@ export default {
 		var teamIndex = state.teams.findIndex(item => item.id === data.id);
 		state.teams.splice(teamIndex, 1);
 	},
+	setParticipants (state, data) {
+		state.participants = data;
+	},
 }
 
 // function setWorkshop (state, data) {

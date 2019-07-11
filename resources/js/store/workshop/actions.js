@@ -13,16 +13,18 @@ export default {
     .then(response => {
         data = response.data;
 
-        commit("setWorkshop", data[0]);
+        commit("setWorkshop", data["workshop"]);
         EventBus.$emit('workshop-initied');
 
-        commit("setAvailableDecks", data[1]);
+        commit("setAvailableDecks", data["availableDecks"]);
 
-        commit("setUser", data[2]);
+        commit("setUser", data["connectedUser"]);
 
-        commit("setAuthorRights", Boolean(data[3]));
+        commit("setAuthorRights", Boolean(data["userIsAuthor"]));
 
-        commit("setTeams", data[4]);
+        commit("setTeams", data["teams"]);
+
+        commit("setParticipants", data["particpants"]);
 
     })
     .catch(e => {

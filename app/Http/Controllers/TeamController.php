@@ -61,8 +61,9 @@ class TeamController extends Controller
                     '_data.id' => 'required|numeric',
                 ]);
 
-                $team->fill($request->_data);
+                $team->name = $request->_data["name"];
                 $team->save();
+                
                 return 'true';
             }
     	}

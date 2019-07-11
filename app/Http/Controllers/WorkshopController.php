@@ -54,7 +54,9 @@ class WorkshopController extends Controller
 
             $teams = $workshop->teams;
 
-            $data = collect([$workshop, $availableDecks, $connectedUser, $userIsAuthor, $teams ]);
+            $particpants = $workshop->participants;
+
+            $data = collect(["workshop" => $workshop, "availableDecks" => $availableDecks, "connectedUser" => $connectedUser, "userIsAuthor" => $userIsAuthor, "teams" => $teams, "particpants" => $particpants ]);
             // dd($data);
             return $data;
         }
@@ -139,10 +141,14 @@ class WorkshopController extends Controller
             // dump($newWorkshop);
 
             if($workshop->author->id == $user->id){
-                unset($newWorkshop['author']);
-                unset($newWorkshop['deck']);
-                unset($newWorkshop['teams']);
-                $workshop->fill($newWorkshop);
+                $workshop->name = $newWorkshop["name"];
+                $workshop->description = $newWorkshop["description"];
+                $workshop->start_date = $newWorkshop["start_date"];
+                $workshop->end_date = $newWorkshop["end_date"];
+                $workshop->private = $newWorkshop["private"];
+                $workshop->public = $newWorkshop["public"];
+                $workshop->locked = $newWorkshop["locked"];
+                $workshop->deck_id = $newWorkshop["deck_id"];
                 $workshop->save();
 
                 return 'true';

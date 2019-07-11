@@ -41,6 +41,7 @@ export default new Vuex.Store({
 		isAuthorOfWorkshop: false,
 		availableDecks: [],
 		teams: [],
+		participants: [],
 		selectedTeam: null,
 		baseUrl: document.getElementById("site-base-url").textContent,
 		workshopBaseUrl: document.getElementById("workshop-base-url").textContent,

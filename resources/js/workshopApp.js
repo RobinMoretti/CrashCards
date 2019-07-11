@@ -45,6 +45,8 @@ import WorkshopContent from './components/workshop/WorkshopContent.vue';
 import Settings from './components/workshop/Settings.vue';
 
 import Table from './components/workshop/Table.vue';
+import TeamsSettings from './components/workshop/TeamsSettings.vue';
+import TeamTable from './components/workshop/TeamTable.vue';
 import TeamSettings from './components/workshop/TeamSettings.vue';
  
 Vue.use(VModal, { dynamic: true, injectModalsContainer: true })
@@ -75,15 +77,34 @@ Vue.mixin({
             target.classList.remove('saving');
             target.classList.add('saved-failed');
     	},
-        toggleTeamSettings: function(){
+        toggleTableSettings: function(){
             // router.push({ name: 'team-settings'})
-            if(this.isAuthor && this.selectedTeam != null){
+            if(this.isAuthor){
                 if(this.$route.name == 'table'){
-                    router.push({ name: 'team-settings'})
+                    router.push({ name: 'teams-settings'})
                 }
                 else{
                     router.push({ name: 'table'})
                 }
+            }
+        },
+        toggleTeamSettings: function(){
+            if(this.isAuthor){
+                if(this.$route.name == 'team-table'){
+                    router.push({ name: 'team-settings'})
+                }
+                else{
+                    router.push({ name: 'team-table'})
+                }
+            }
+        },
+        goTeamTable: function(teamClicked){
+            if(this.selectedTeam != null){
+                if(this.$route.name != 'team-table' || this.$route.name != 'team-settings'){
+                    router.push({ name: 'team-table'})
+                }
+            }else{
+                router.push({ name: 'table'})
             }
         },
     }
@@ -103,14 +124,24 @@ const routes = [
   { path: '/', component: WorkshopContent, name: 'home',
         children: [
             {
-              path: '',
-              component: Table,
-              name: 'table'
+                path: '',
+                component: Table,
+                name: 'table'
             },
             {
-              path: 'team-settings',
-              component: TeamSettings,
-              name: 'team-settings'
+                path: 'team-table',
+                component: TeamTable,
+                name: 'team-table'
+            },
+            {
+                path: 'team-settings',
+                component: TeamSettings,
+                name: 'team-settings'
+            },
+            {
+              path: 'teams-settings',
+              component: TeamsSettings,
+              name: 'teams-settings'
             }
         ]
     },

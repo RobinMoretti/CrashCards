@@ -42,7 +42,11 @@
                 )
             },
             toggleSelected: function(team){
+                if(team == this.selectedTeam){
+                    team = null
+                }
                 this.$store.dispatch("toggleSelectedTeam", team);
+                this.goTeamTable(team);
             },
         }
     }

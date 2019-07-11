@@ -12,7 +12,7 @@
             <img src="/icons/edit.svg" alt="" v-if="isAuthor">
         </div>
 
-        <div class="edit" v-if="editMode && editable">
+        <div class="edit" v-show="editMode && editable">
             <input 
             type="text" 
             id="content-input" 
@@ -22,6 +22,7 @@
             v-on:keydown.enter="update"
             v-if="inputTag == 'input'"
             :placeholder="defaultContent" 
+            ref="textInput"
             >
 
             <textarea 
@@ -30,7 +31,8 @@
             v-model="inputContent"
             rows="5" cols="60"
             :placeholder="defaultContent" 
-            v-if="inputTag == 'textarea'">
+            v-if="inputTag == 'textarea'"
+            ref="textArea">
             </textarea>
 
             <img src="/icons/save.svg" alt="" class="save" v-on:click="update">
@@ -99,6 +101,20 @@
             toggleEditMode: function(){
                 if(this.isAuthor){
                     this.editMode = !this.editMode;
+                    if(this.editMode){
+                        if(this.inputTag == 'input'){
+                            var app = this;
+                            setTimeout(function(){
+                                app.$refs.textInput.focus();
+                            }.bind(app), 100);
+                        }else if(this.inputTag == 'textarea'){
+                            var app = this;
+                            setTimeout(function(){
+                                app.$refs.textArea.focus();
+                            }.bind(app), 100);
+                        }
+                    }
+
                     if(this.inputTag != "checkbox"){
                         this.inputContent = this.content;
                     }
