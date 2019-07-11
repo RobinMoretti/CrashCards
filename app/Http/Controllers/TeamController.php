@@ -63,7 +63,7 @@ class TeamController extends Controller
 
                 $team->name = $request->_data["name"];
                 $team->save();
-                
+
                 return 'true';
             }
     	}
@@ -73,13 +73,67 @@ class TeamController extends Controller
 
     public function deleteInWorkshop(Request $request, Workshop $workshop, Team $team)
     {
-    	// $team->leader->id == Auth::user()->id
-    	if($request->ajax()){
-    		if($workshop->author->id == Auth::user()->id){
-    			Team::destroy($team->id);
+        // $team->leader->id == Auth::user()->id
+        if($request->ajax()){
+            if($workshop->author->id == Auth::user()->id){
+                Team::destroy($team->id);
                 return "true";
-    		}
-    	}
+            }
+        }
+
+        return response()->json(['error' => "Can't delete team"], 404);
+    }
+
+    public function addPlayerToTeam(Request $request, Workshop $workshop, Team $team)
+    {
+        if($request->ajax()){
+            if($workshop->author->id == Auth::user()->id){
+                $request->validate([
+                    '_data.username' => 'required',
+                ]);
+
+                if(isset($request->_data["id"])){
+                    if($request->_data["id"] > 0){
+                        $user = User::find($request->_data["id"]);
+                        $user->teams()->attach($team);
+                        $user->save();
+                        return $user;
+                    }
+                }else{
+                    $users = User::where('username', $request->_data["username"]);
+
+                    //check if user with same username exist
+                    if($users->count()){
+                        $users->first();
+                        //send an invitation
+                        //add to participants
+                        //add to team
+                        return 'false';
+
+                    }else{
+                        $user = $team->players()->create([
+                            'username' => $request->_data["username"],
+                        ]);
+
+                        return $user;
+                    }
+                }
+                
+                return 'false';
+            }
+        }
+
+        return response()->json(['error' => "Can't delete team"], 404);
+    }
+
+    public function removePlayerToTeam(Request $request, Workshop $workshop, Team $team, User $player)
+    {
+        if($request->ajax()){
+            if($workshop->author->id == Auth::user()->id){
+                Team::destroy($team->id);
+                return "true";
+            }
+        }
 
         return response()->json(['error' => "Can't delete team"], 404);
     }

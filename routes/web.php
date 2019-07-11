@@ -107,5 +107,8 @@ Route::middleware(['auth'])->group(function () {
 	Route::post('/workshops/{workshop}/team/{team}/read', 'TeamController@readInWorkshop')->name('team-read');
 	Route::post('/workshops/{workshop}/team/{team}/update', 'TeamController@updateInWorkshop')->name('team-update');
 	Route::post('/workshops/{workshop}/team/{team}/delete', 'TeamController@deleteInWorkshop')->name('team-delete');
+
+	Route::post('/workshops/{workshop}/team/{team}/players/add', 'TeamController@addPlayerToTeam')->name('team-add-player');
+	Route::post('/workshops/{workshop}/team/{team}/players/{player}/remove', 'TeamController@removePlayerToTeam')->name('team-remove-player');
 });
 

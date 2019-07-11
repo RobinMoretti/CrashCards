@@ -7,8 +7,12 @@
             </div>
         </div>
 
-        <div class="participants"  v-for="particpant in participants">
-            <p>{{particpant.id}}: {{particpant.username}}</p>
+        <div class="participants-container mb-5">
+            <h3>Participants</h3>
+            
+            <div class="participants mb-3" v-for="particpant in participants">
+                <p>{{particpant.id}}: {{particpant.username}}</p>
+            </div>
         </div>
 
     </div>

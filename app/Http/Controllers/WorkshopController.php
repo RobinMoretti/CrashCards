@@ -52,7 +52,7 @@ class WorkshopController extends Controller
                 }
             }
 
-            $teams = $workshop->teams;
+            $teams = $workshop->teams->load('players')->load('leader');
 
             $particpants = $workshop->participants;
 

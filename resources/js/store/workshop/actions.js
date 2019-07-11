@@ -175,7 +175,34 @@ export default {
       })
       .catch(e => {
         console.log(e)
-        return new Promise((resolve, reject) => {
+        return new Promπise((resolve, reject) => {
+          reject()
+        })
+      })
+    }
+  },
+  async addPlayerToTeam ({ commit, state }, payloads) {
+    // ajouter si user n'as pas dequipe
+    if(state.user.id == state.workshop.author.id){
+      var team = payloads.team;
+      var newPlayer = payloads.newPlayer;
+
+      await axios.post(state.workshopBaseUrl + "/team/" + team.id +"/players/add", {
+        _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+        _data: newPlayer,
+      })
+      .then(response => {
+          console.log(response.data)
+          // if(response.data){
+          //   return new Promise((resolve, reject) => {
+          //     commit("deleteSelectedTeam", team);
+          //     resolve()
+          //   })
+          // }
+      })
+      .catch(e => {
+        console.log(e)
+        return new Promπise((resolve, reject) => {
           reject()
         })
       })
