@@ -31,5 +31,9 @@ class Workshop extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function fakePlayers()
+    {
+        return $this->hasManyThrough(FakeUser::class, Team::class);
+    }
 
 }

@@ -52,12 +52,25 @@ class WorkshopController extends Controller
                 }
             }
 
-            $teams = $workshop->teams->load('players')->load('leader');
+            $teams = $workshop->teams->load('players')->load('players')->load('fakePlayers')->load('leader');
 
             $particpants = $workshop->participants;
+            $fakePlayers = $workshop->fakePlayers;
 
-            $data = collect(["workshop" => $workshop, "availableDecks" => $availableDecks, "connectedUser" => $connectedUser, "userIsAuthor" => $userIsAuthor, "teams" => $teams, "particpants" => $particpants ]);
-            // dd($data);
+            foreach ($fakePlayers as $key => $fakePlayer) {
+                $fakePlayer->fakeUser = true;
+                $particpants->push($fakePlayer);
+            }
+
+            $data = collect([
+                "workshop" => $workshop,
+                "availableDecks" => $availableDecks,
+                "connectedUser" => $connectedUser,
+                "userIsAuthor" => $userIsAuthor,
+                "teams" => $teams,
+                "particpants" => $particpants,
+            ]);
+
             return $data;
         }
     }

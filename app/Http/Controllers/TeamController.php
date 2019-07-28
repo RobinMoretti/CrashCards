@@ -12,6 +12,7 @@ use App\Deck;
 use App\User;
 use App\Workshop;
 use App\Team;
+use App\FakeUser;
 
 
 
@@ -84,6 +85,30 @@ class TeamController extends Controller
         return response()->json(['error' => "Can't delete team"], 404);
     }
 
+    public function addFakePlayerToTeam(Request $request, Workshop $workshop, Team $team)
+    {
+        if($request->ajax()){
+            if($workshop->author->id == Auth::user()->id){
+                $request->validate([
+                    '_data.username' => 'required',
+                ]);
+
+                $FakeUserExist = FakeUser::where("username", $request->_data["username"])->get()->count();
+
+                $fakeUser = new FakeUser();
+                $fakeUser->username = $request->_data["username"];
+                $fakeUser->save();
+
+                $team->fakePlayers()->save($fakeUser);
+                $team->save();
+
+                $fakeUser->fakeUser = true;
+                return ["player" => $fakeUser, "team" => $team];
+
+            }
+        }
+        return response()->json(['error' => "Can't add fake user"], 404);
+    }
     public function addPlayerToTeam(Request $request, Workshop $workshop, Team $team)
     {
         if($request->ajax()){
@@ -97,7 +122,7 @@ class TeamController extends Controller
                         $user = User::find($request->_data["id"]);
                         $user->teams()->attach($team);
                         $user->save();
-                        return $user;
+                        return ["player" => $user, "team" => $team];
                     }
                 }else{
                     $users = User::where('username', $request->_data["username"]);
@@ -108,18 +133,16 @@ class TeamController extends Controller
                         //send an invitation
                         //add to participants
                         //add to team
-                        return 'false';
+                        return response()->json(['error' => "User with this same id exist"], 404);
 
                     }else{
                         $user = $team->players()->create([
                             'username' => $request->_data["username"],
                         ]);
 
-                        return $user;
+                        return ["player" => $user, "team" => $team];
                     }
                 }
-                
-                return 'false';
             }
         }
 
@@ -130,11 +153,26 @@ class TeamController extends Controller
     {
         if($request->ajax()){
             if($workshop->author->id == Auth::user()->id){
-                Team::destroy($team->id);
-                return "true";
+                $team->players()->detach($player->id);
+                $team->save();
+                return ["player" => $player, "team" => $team];
             }
         }
 
-        return response()->json(['error' => "Can't delete team"], 404);
+        return response()->json(['error' => "Can't remove player from team"], 404);
+    }
+
+    public function removeFakePlayerToTeam(Request $request, Workshop $workshop, Team $team, FakeUser $player)
+    {
+        if($request->ajax()){
+            if($workshop->author->id == Auth::user()->id){
+                $player->team_id = null;
+                $player->save();
+                $player->fakeUser = true;
+                return ["player" => $player, "team" => $team];
+            }
+        }
+
+        return response()->json(['error' => "Can't remove player from team"], 404);
     }
 }

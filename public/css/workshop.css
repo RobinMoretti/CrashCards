@@ -139,3 +139,7 @@
           flex-direction: row;
 }
 
+.team-setting .v-select {
+  min-width: 300px;
+}
+

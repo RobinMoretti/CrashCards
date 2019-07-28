@@ -24,7 +24,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
-
+    
     public function cards()
     {
         return $this->hasMany(Card::class, 'author_id')->withTimestamps();

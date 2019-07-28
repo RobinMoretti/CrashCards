@@ -43,6 +43,15 @@ p {
   font-size: 1.2rem;
 }
 
+.info {
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.danger {
+  color: red;
+}
+
 #main-nav .nav-header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -787,6 +796,26 @@ input {
 
 .float-left {
   float: left;
+}
+
+.w-100 {
+  width: 100% !important;
+}
+
+.w-75 {
+  width: 75% !important;
+}
+
+.w-50 {
+  width: 50% !important;
+}
+
+.w-25 {
+  width: 25% !important;
+}
+
+.w-0 {
+  width: 0% !important;
 }
 
 button {

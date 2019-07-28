@@ -37,11 +37,9 @@ export const allTeamPlayers = (state, getters) => {
 	var allTeamPlayers = [];
 	var teams = getters.teams;
 
-	if(teams.players != null){
-		for (var i = 0; i < teams.players.length; i++) {
-			if(!allTeamPlayers.includes(teams.players[i])){
-				allTeamPlayers.push(teams.players[i]);
-			}
+	for (var i = 0; i < teams.length; i++) {
+		for (var u = 0; u < teams[i].players.length; u++) {
+			allTeamPlayers.push(teams[i].players[u]);
 		}
 	}
 
@@ -49,7 +47,7 @@ export const allTeamPlayers = (state, getters) => {
 }
 
 export const participants = (state, getters) => {
-  return state.participants;
+	return state.participants;
 }
 
 export const participantsWithoutTeam = (state, getters) => {
@@ -59,10 +57,17 @@ export const participantsWithoutTeam = (state, getters) => {
 
 	if(participants != null && allTeamPlayers != null){
 		for (var i = 0; i < participants.length; i++) {
-			if(!allTeamPlayers.includes(participants[i])){
+			
+			var indexFounded = allTeamPlayers.findIndex(function(element){
+				return element.id == participants[i].id;
+			});
+
+			if(indexFounded < 0){
 				participantsWithoutTeam.push(participants[i]);
 			}
+			
 		}
+		console.log(participantsWithoutTeam)
 	}
 
 	return participantsWithoutTeam;

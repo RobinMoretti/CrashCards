@@ -42,6 +42,7 @@ export default new Vuex.Store({
 		availableDecks: [],
 		teams: [],
 		participants: [],
+		fakePlayers: [],
 		selectedTeam: null,
 		baseUrl: document.getElementById("site-base-url").textContent,
 		workshopBaseUrl: document.getElementById("workshop-base-url").textContent,

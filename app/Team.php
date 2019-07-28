@@ -18,6 +18,11 @@ class Team extends Model
 		return $this->belongsToMany(User::class);
 	}
 
+    public function fakePlayers()
+    {
+        return $this->hasMany(FakeUser::class);
+    }
+    
 	public function hand()
 	{
 		return $this->hasOne(Hand::class);

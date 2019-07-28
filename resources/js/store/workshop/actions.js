@@ -2,7 +2,7 @@
 import EventBus from '../../event-bus';
 
 export default {
-	async initWorkshop ({ commit, state }, payload) {
+	async initWorkshop ({ commit, state, getters }, payload) {
     let data;
     console.log('initial workshop')
 
@@ -175,7 +175,7 @@ export default {
       })
       .catch(e => {
         console.log(e)
-        return new Promπise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
           reject()
         })
       })
@@ -184,46 +184,85 @@ export default {
   async addPlayerToTeam ({ commit, state }, payloads) {
     // ajouter si user n'as pas dequipe
     if(state.user.id == state.workshop.author.id){
+
       var team = payloads.team;
       var newPlayer = payloads.newPlayer;
 
-      await axios.post(state.workshopBaseUrl + "/team/" + team.id +"/players/add", {
-        _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
-        _data: newPlayer,
-      })
-      .then(response => {
-          console.log(response.data)
-          // if(response.data){
-          //   return new Promise((resolve, reject) => {
-          //     commit("deleteSelectedTeam", team);
-          //     resolve()
-          //   })
-          // }
-      })
-      .catch(e => {
-        console.log(e)
-        return new Promπise((resolve, reject) => {
-          reject()
+      console.log("payloads")
+      console.log(payloads)
+
+      if(!newPlayer.id){
+        await axios.post(state.workshopBaseUrl + "/team/" + team.id +"/fake-players/addFakePlayer", {
+          _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+          _data: newPlayer,
         })
-      })
+        .then(response => {
+          var data = response.data;
+          commit("addPlayerToTeam", data);
+        })
+        .catch(e => {
+          console.log(e)
+          return new Promise((resolve, reject) => {
+            reject()
+          })
+        })
+
+      }else{
+        await axios.post(state.workshopBaseUrl + "/team/" + team.id +"/players/add", {
+          _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+          _data: newPlayer,
+        })
+        .then(response => {
+          var data = response.data;
+          commit("addPlayerToTeam", data);
+        })
+        .catch(e => {
+          console.log(e)
+          return new Promise((resolve, reject) => {
+            reject()
+          })
+        })
+      }
+    }
+  },
+  async removePlayerToTeam ({ commit, state }, payloads) {
+    // remove user
+    if(state.user.id == state.workshop.author.id){
+
+      var team = payloads.team;
+      var player = payloads.player;
+
+      if(player.fakeUser){
+        await axios.post(state.workshopBaseUrl + "/team/" + team.id +"/fake-players/" + player.id +"/remove", {
+          _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+        })
+        .then(response => {
+          var data = response.data;
+          commit("removePlayerToTeam", data);
+        })
+        .catch(e => {
+          console.log(e)
+          return new Promise((resolve, reject) => {
+            reject()
+          })
+        })
+      }
+      else{
+        await axios.post(state.workshopBaseUrl + "/team/" + team.id +"/players/" + player.id +"/remove", {
+          _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
+        })
+        .then(response => {
+          var data = response.data;
+          commit("removePlayerToTeam", data);
+        })
+        .catch(e => {
+          console.log(e)
+          return new Promise((resolve, reject) => {
+            reject()
+          })
+        })
+      }
     }
   },
 }
-
-	// async initWorkshop ({ commit }, payload) {
-	// 	let data;
-
- //        await axios.post(window.getWorkshopObjRoute, {
- //          _token: document.querySelector('meta[name=csrf-token]').getAttribute('content'),
- //          headers: { 'content-type': 'multipart/form-data' } 
- //        })
- //        .then(response => {
- //            data = response.data;
- //        })
- //        .catch(e => {
- //          console.log(e)
- //        }) 
-
- //  		commit("setWorkshop", data);
-	// },
 

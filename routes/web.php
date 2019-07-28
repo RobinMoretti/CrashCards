@@ -110,5 +110,9 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::post('/workshops/{workshop}/team/{team}/players/add', 'TeamController@addPlayerToTeam')->name('team-add-player');
 	Route::post('/workshops/{workshop}/team/{team}/players/{player}/remove', 'TeamController@removePlayerToTeam')->name('team-remove-player');
+	Route::post('/workshops/{workshop}/team/{team}/players/{player}/remove', 'TeamController@removePlayerToTeam')->name('team-remove-player');
+
+	Route::post('/workshops/{workshop}/team/{team}/fake-players/addFakePlayer', 'TeamController@addFakePlayerToTeam')->name('team-add-fake-player');
+	Route::post('/workshops/{workshop}/team/{team}/fake-players/{player}/remove', 'TeamController@removeFakePlayerToTeam')->name('team-remove-fake-player');
 });
 

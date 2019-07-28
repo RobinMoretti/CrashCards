@@ -9,12 +9,14 @@
 
         <div class="participants-container mb-5">
             <h3>Participants</h3>
-            
             <div class="participants mb-3" v-for="particpant in participants">
-                <p>{{particpant.id}}: {{particpant.username}}</p>
+                <p>
+                    {{particpant.id}}: {{particpant.username}} 
+                    <span v-if="participantsWithoutTeam.includes(particpant)" class="info danger">not a team member</span>
+                    <span v-if="particpant.fakePlayer" class="info">fake player</span>
+                </p> 
             </div>
         </div>
-
     </div>
 </template>
 
@@ -31,6 +33,9 @@
         computed:{
             participants(){
                 return this.$store.getters.participants;
+            },
+            participantsWithoutTeam(){
+                return this.$store.getters.participantsWithoutTeam;
             }
         },
         mounted() {
